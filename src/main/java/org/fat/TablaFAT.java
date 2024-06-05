@@ -21,10 +21,10 @@ public class TablaFAT {
         Arrays.fill(this.table,0);
     }
 
-    //Override Constructor params: tamanio disco y cantidad de sectores
+    //Override Constructor params: tamanio disco, cantidad de sectores y porcentaje de clusters dañados
     public TablaFAT(int clusterNumber, int sector, double bad){
-        this.clusterNumber = clusterNumber;
-        this.sector = sector;
+        this.clusterNumber = Math.max(clusterNumber, 4085); // verificar que la cantidad de cluster sea mayor a la permitida
+        this.sector = Math.max(sector, 1);
         this.table = new int[this.clusterNumber];
         System.out.println("tamaño: " + this.clusterNumber*sector*512);
         Arrays.fill(this.table,0);
@@ -67,14 +67,30 @@ public class TablaFAT {
         this.table_first_cluster.add(pos_first);
         return true;
     }
+
     public boolean DeleteFile(int first_cluster){
-        // TODO: eliminar un archivo tomando la referencia a la siguiente posicion dentro de la tabla FAT
-        return false;
+        int tmp = 0;
+        tmp = this.table[first_cluster];
+        this.table[first_cluster] = 0;
+        for (int i = first_cluster; i < this.table.length; i++) {
+            if (i == tmp){
+                tmp = this.table[i];
+                this.table[i] = 0;
+                if (tmp == this.EOF){
+                    break;
+                }
+            }
+        }
+        // eliminar de tabla de primer cluster
+        this.table_first_cluster.remove((Integer) first_cluster);
+        return true;
     }
 
-    public void DaniarClusters (double desuso){
+    private void DaniarClusters (double desuso){
         if (desuso > 1){
             desuso = 1;
+        }else if (desuso < 0){
+            desuso = 0;
         }
         Random random = new Random();
         int cant_bloques = (int) (this.table.length*desuso*0.28);
@@ -90,7 +106,7 @@ public class TablaFAT {
     }
 
     public void setClusterNumber(int clusterNumber) {
-        this.clusterNumber = clusterNumber;
+        this.clusterNumber = Math.max(clusterNumber, 4085);
     }
 
     public int getSector() {
@@ -98,7 +114,7 @@ public class TablaFAT {
     }
 
     public void setSector(int sector) {
-        this.sector = sector;
+        this.sector = Math.max(sector, 1);
     }
 
     public int[] getTable() {
