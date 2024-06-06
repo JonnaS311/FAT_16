@@ -61,7 +61,7 @@ public class TablaDirectorios {
 
         @Override
         public String toString() {
-            return "Directorio: " + nombre + ", Entradas: " + entradas.size() + ", Subdirectorios: " + subdirectorios.size();
+            return "Directorio: " + nombre + ", Archivos: " + entradas.size() + ", Subdirectorios: " + subdirectorios.size();
         }
     }
 
@@ -214,10 +214,10 @@ public class TablaDirectorios {
         TablaDirectorios tablaDirectorios = new TablaDirectorios(tablaFAT);
 
         // Crear directorios y subdirectorios
-        tablaDirectorios.crearSubdirectorio("directorio1", "C:\\");
+        tablaDirectorios.crearSubdirectorio("Escritorio", "C:\\");
         tablaDirectorios.crearSubdirectorio("directorio2", "C:\\");
-        tablaDirectorios.crearSubdirectorio("subdirectorio1", "C:\\directorio1");
-        tablaDirectorios.crearSubdirectorio("TRABAJOS", "C:\\directorio1\\subdirectorio1");
+        tablaDirectorios.crearSubdirectorio("REDESII", "C:\\Escritorio");
+        tablaDirectorios.crearSubdirectorio("TRABAJOS", "C:\\Escritorio\\REDESII");
 
         //Crea objetos de tipo FileFAT 
         FileFAT archivo1 = new FileFAT("archivo1", "txt", new Date(), 32, 204869, "Contenido del archivo 1");
@@ -225,13 +225,14 @@ public class TablaDirectorios {
         FileFAT archivo3 = new FileFAT("archivo3", "doc", new Date(), 32, 404869, "Contenido del archivo 3");
 
         // Agregar archivos a los directorios
-        tablaDirectorios.agregarEntrada(archivo1, "C:\\directorio1");
-        tablaDirectorios.agregarEntrada(archivo2, "C:\\directorio1\\subdirectorio1");
-        tablaDirectorios.agregarEntrada(archivo3, "C:\\directorio1\\subdirectorio1");
-        tablaDirectorios.agregarEntrada(archivo3, "C:\\directorio1\\subdirectorio1\\TRABAJOS");
+        tablaDirectorios.agregarEntrada(archivo1, "C:\\Escritorio");
+        tablaDirectorios.agregarEntrada(archivo2, "C:\\Escritorio\\REDESII");
+        tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII");
+        tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII\\TRABAJOS");
 
         // Listar los archivos dentro de los directorios
-        tablaDirectorios.listarEntradas("C:\\directorio1");
+        tablaDirectorios.listarEntradas("C:\\Escritorio\\REDESII\\TRABAJOS");
+        //Acá es para mirar que si se está guardando la información en la tablaFAT
         tablaFAT.imprimirTablaFAT();
     }
 }
