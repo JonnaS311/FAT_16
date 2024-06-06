@@ -14,5 +14,12 @@ public class Main {
         test.DeleteFile(63477);
         System.out.println(Arrays.toString(test.getTable()));
         System.out.println(test.getTable_first_cluster());
+
+        for (int[] array : test.getFormattedTable()) {
+            for (int num : array) {
+                System.out.print(num + " ");
+            }
+            System.out.println();
+        }
     }
 }
