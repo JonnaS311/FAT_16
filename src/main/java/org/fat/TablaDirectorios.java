@@ -7,64 +7,6 @@ public class TablaDirectorios {
     private static final int LONGITUD_NOMBRE = 8;
     private static final int LONGITUD_EXTENSION = 3;
 
-    private static class EntradaDirectorio {
-        private FileFAT file;
-        private int primerCluster;
-        private String ruta;
-
-        public EntradaDirectorio(FileFAT file, int primerCluster, String ruta) {
-            this.file = file;
-            this.primerCluster = primerCluster;
-            this.ruta = ruta;
-        }
-
-        @Override
-        public String toString() {
-            return String.format("%-15s %-15s %-10s %-20s %-20s %-20s %-10s",
-                    ruta + "\\" + file.getName() + "." + file.getExtension(),
-                    "Primer Cluster: " + primerCluster,
-                    "Tamaño: " + file.getSize(),
-                    "Fecha Creación: " + file.getCreationDate(),
-                    "Fecha Modificación: " + file.getModificationDate(),
-                    "Último Acceso: " + file.getLastAccessDate(),
-                    "Atributo: " + file.getAttribute());
-        }
-    }
-
-    private static class DirectorioFAT {
-        private String nombre;
-        private ArrayList<EntradaDirectorio> entradas;
-        private ArrayList<DirectorioFAT> subdirectorios;
-
-        public DirectorioFAT(String nombre) {
-            this.nombre = nombre;
-            this.entradas = new ArrayList<>();
-            this.subdirectorios = new ArrayList<>();
-        }
-
-        public void agregarEntrada(EntradaDirectorio entrada) {
-            this.entradas.add(entrada);
-        }
-
-        public void agregarSubdirectorio(DirectorioFAT subdirectorio) {
-            this.subdirectorios.add(subdirectorio);
-        }
-
-        public DirectorioFAT buscarSubdirectorio(String nombre) {
-            for (DirectorioFAT subdir : subdirectorios) {
-                if (subdir.nombre.equals(nombre)) {
-                    return subdir;
-                }
-            }
-            return null;
-        }
-
-        @Override
-        public String toString() {
-            return "Directorio: " + nombre + ", Archivos: " + entradas.size() + ", Subdirectorios: " + subdirectorios.size();
-        }
-    }
-
     private DirectorioFAT root;
     private TablaFAT tablaFAT;
 
@@ -194,7 +136,6 @@ public class TablaDirectorios {
     
         return directorioActual;
     }
-    
 
     public void buscarRuta(String ruta) {
         DirectorioFAT directorio = navegarARuta(ruta);
@@ -202,11 +143,9 @@ public class TablaDirectorios {
             System.out.println("Error: Ruta no encontrada");
             return;
         }
-    
+
         listarEntradas(ruta);
     }
-
-
 
     //EJEMPLO DE USO
     public static void main(String[] args) {
@@ -231,15 +170,10 @@ public class TablaDirectorios {
         tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII\\TRABAJOS");
 
         // Listar los archivos dentro de los directorios
-        tablaDirectorios.listarEntradas("C:\\Escritorio\\REDESII\\TRABAJOS");
+        tablaDirectorios.listarEntradas("C:\\Escritorio\\REDESII");
+
+
         //Acá es para mirar que si se está guardando la información en la tablaFAT
         tablaFAT.imprimirTablaFAT();
     }
 }
-
-
-
-
-
-
-
