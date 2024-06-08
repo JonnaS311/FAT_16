@@ -1,6 +1,6 @@
 package org.fat;
 
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,7 +24,7 @@ public class MainController {
     @FXML
     private TextField txtcluster;
     @FXML
-    private TableView<SimpleIntegerProperty> tablaFATvisual;
+    private TableView<ObservableList<Integer>> tablaFATvisual;
 
 
 
@@ -50,6 +50,33 @@ public class MainController {
                 stage.setScene(scene);
                 stage.centerOnScreen();
                 stage.show();
+
+                TablaFAT tablaFAT = new TablaFAT(numCluster, numSector, 0.0);
+
+                // Crear una lista observable para almacenar los datos de la tabla
+                ObservableList<ObservableList<Integer>> data = FXCollections.observableArrayList();
+
+                // Obtener los datos de la tabla y agregarlos a la lista observable
+                for (int[] fila : tablaFAT.getFormattedTable()) {
+                    ObservableList<Integer> filaObservable = FXCollections.observableArrayList();
+                    for (int valor : fila) {
+                        filaObservable.add(valor);
+                    }
+                    data.add(filaObservable);
+                }
+
+                // Configurar las columnas de la tabla
+                tablaFATvisual.getColumns().clear(); // Limpiar las columnas existentes
+                int numColumnas = 8;
+                for (int i = 0; i < numColumnas; i++) {
+                    final int columnIndex = i;
+                    TableColumn<ObservableList<Integer>, Object> columna = new TableColumn<>("Columna " + i);
+                    columna.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue()));
+                    tablaFATvisual.getColumns().add(columna);
+                }
+
+                // Asignar los datos a la tabla
+                tablaFATvisual.setItems(data);
 
                 Advertencia.setText("Error al iniciar");
             } else {
