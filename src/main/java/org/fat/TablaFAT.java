@@ -1,4 +1,5 @@
 package org.fat;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -7,83 +8,85 @@ public class TablaFAT {
     private int clusterNumber;
     private int sector;
     private final int SECTOR_SIZE = 512;
-    private final int BAD_CLUSTER = 65527; // representado por 0xFFF7
-    private final int EOF = 65535; // representado por 0xFFFF
+    private final int BAD_CLUSTER = 65527; // represented by 0xFFF7
+    private final int EOF = 65535; // represented by 0xFFFF
     private int[] table;
-    private final ArrayList<Integer> table_first_cluster = new ArrayList<>();
+    private final ArrayList<Integer> table_first_cluster = new ArrayList<Integer>();
 
-    // Constructor por defecto
+    // Constructor Default
     public TablaFAT() {
         this.clusterNumber = 65524; // para: 2GiB - 1
-        this.sector = 64; // estándar de 64 sectores = 32Kb que es lo máximo permitido por FAT16
+        this.sector = 64; // estandar de 64 sectores
         this.table = new int[this.clusterNumber];
         Arrays.fill(this.table, 0);
     }
 
-    // Constructor con parámetros: tamaño del disco, cantidad de sectores y porcentaje de clusters dañados
+    //Override Constructor params: tamanio disco, cantidad de sectores y porcentaje de clusters dañados
     public TablaFAT(int clusterNumber, int sector, double bad) {
-        this.clusterNumber = Math.max(clusterNumber, 4085); 
+        this.clusterNumber = Math.max(clusterNumber, 4085); // verificar que la cantidad de cluster sea mayor a la permitida
         this.sector = Math.max(sector, 1);
         this.table = new int[this.clusterNumber];
         System.out.println("tamaño: " + this.clusterNumber * sector * 512);
         Arrays.fill(this.table, 0);
-        daniarClusters(bad);
+        // Asignamos de manera aleatoria clusters dañados
+        DaniarClusters(bad);
     }
 
-    // Método para crear un archivo en la tabla FAT
-    public boolean createFile(int size) {
-        // Verificamos cuantos bloques ocupa el archivo
-        int clusters = (int) Math.ceil((double) size / (this.sector * SECTOR_SIZE));
+    public boolean CreateFile(int size) {
+        // verificamos cuantos bloques ocupa el archivo
+        int clusters = Math.ceilDivExact(size, this.sector * 512);
         int[] tmp = Arrays.copyOf(this.table, this.table.length);
         boolean isFirst = true;
         int pos_first = -1;
-        int last_pos = -1;
-        System.out.println("Cantidad de clusters a usar: " + clusters);
-
-        // Buscamos el primer cluster libre
-        for (int i = 0; i < this.table.length && clusters > 0; i++) {
-            if (this.table[i] == 0) {
-                if (isFirst) {
-                    pos_first = i;
-                    isFirst = false;
-                } else {
-                    this.table[last_pos] = i;
+        System.out.println("cantidad de cluster a usar: " + clusters);
+        // buscamos el primer cluster libre
+        for (int i = 0; i < this.table.length; i++) {
+            if (this.table[i] == 0 && clusters > 0) {
+                // buscamos el siguiente cluster al que vamos a hacer referencia
+                for (int j = i + 1; j < this.table.length; j++) {
+                    if (this.table[j] == 0) {
+                        if (isFirst) {
+                            pos_first = i;
+                            isFirst = false;
+                        }
+                        // END OF FILE is represented by -1
+                        this.table[i] = (clusters == 1) ? EOF : j;
+                        clusters -= 1;
+                        break;
+                    }
                 }
-                last_pos = i;
-                clusters--;
+            } else if (clusters == 0) {
+                break;
             }
         }
-
-        // Si no se encontraron suficientes clusters libres, revertimos los cambios
-        if (clusters > 0) {
+        System.out.println(clusters);
+        if (clusters > 1) {
             this.table = tmp;
             return false;
         }
-
-        this.table[last_pos] = EOF;
         this.table_first_cluster.add(pos_first);
         return true;
     }
 
-    // Método para eliminar un archivo de la tabla FAT
-    public boolean deleteFile(int first_cluster) {
-        int next_cluster;
-        int current_cluster = first_cluster;
-
-        // Liberamos los clusters usados por el archivo
-        while (current_cluster != EOF) {
-            next_cluster = this.table[current_cluster];
-            this.table[current_cluster] = 0;
-            current_cluster = next_cluster;
+    public boolean DeleteFile(int first_cluster) {
+        int tmp = 0;
+        tmp = this.table[first_cluster];
+        this.table[first_cluster] = 0;
+        for (int i = first_cluster; i < this.table.length; i++) {
+            if (i == tmp) {
+                tmp = this.table[i];
+                this.table[i] = 0;
+                if (tmp == this.EOF) {
+                    break;
+                }
+            }
         }
-
-        // Eliminamos el primer cluster de la tabla de primeros clusters
+        // eliminar de tabla de primer cluster
         this.table_first_cluster.remove((Integer) first_cluster);
         return true;
     }
 
-    // Método para dañar clusters de manera aleatoria
-    private void daniarClusters(double desuso) {
+    private void DaniarClusters(double desuso) {
         if (desuso > 1) {
             desuso = 1;
         } else if (desuso < 0) {
@@ -92,19 +95,32 @@ public class TablaFAT {
         Random random = new Random();
         int cant_bloques = (int) (this.table.length * desuso * 0.28);
         for (int i = 0; i < cant_bloques; i++) {
-            int position = random.nextInt(this.table.length);
+            int position = random.nextInt(table.length - 1);
             this.table[position] = BAD_CLUSTER;
         }
     }
-    public void imprimirTablaFAT() {
-        System.out.println("Estado de la Tabla FAT:");
+
+    public ArrayList<int[]> getFormattedTable() {
+        ArrayList<int[]> tabla = new ArrayList<int[]>();
+        int[] tmp = new int[8];
+        int[] buffer = new int[8];
         for (int i = 0; i < this.table.length; i++) {
-            if (this.table[i] != 0 && this.table[i] != BAD_CLUSTER) {
-                System.out.printf("Clúster %d: %s%n", i, (this.table[i] == EOF) ? "EOF" : String.valueOf(this.table[i]));
+            tmp[i%8] = this.table[i];
+            // cada vez que se llena con 8 elementos procede a guardalo como una copia en el arraylist
+            if(i%8==7){
+                tabla.add(tmp.clone());
+                tmp = new int[8];
             }
         }
+        // si los ultimos valores no alcanzaron a ser almacenados los guarda
+        for (int num: tmp){
+            tabla.add(tmp.clone());
+            break;
+        }
+        return tabla;
     }
-    // Getters & Setters generados automáticamente
+
+    // Auto-generated Setters & Getters
     public int getClusterNumber() {
         return clusterNumber;
     }
@@ -124,7 +140,6 @@ public class TablaFAT {
     public int[] getTable() {
         return table;
     }
-
     public int getSECTOR_SIZE() {
         return SECTOR_SIZE;
     }
