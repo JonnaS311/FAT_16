@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -34,17 +35,12 @@
                   <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Modificar">
+            <Button fx:id="modificar" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Modificar">
                <font>
                   <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Eliminar">
-               <font>
-                  <Font name="Calibri Light" size="14.0" />
-               </font>
-            </Button>
-            <Button layoutX="323.0" layoutY="13.0" mnemonicParsing="false" onAction="#Regresar" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Regresar a Tabla">
+            <Button fx:id="eliminar" mnemonicParsing="false" onAction="#Eliminar" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Eliminar">
                <font>
                   <Font name="Calibri Light" size="14.0" />
                </font>
@@ -53,35 +49,56 @@
       </ToolBar>
       <Pane prefHeight="41.0" prefWidth="1280.0">
          <children>
-            <Label layoutX="19.0" layoutY="6.0" prefHeight="17.0" prefWidth="35.0" text="Ruta: ">
+            <Label layoutX="64.0" layoutY="8.0" prefHeight="17.0" prefWidth="35.0" text="Ruta: ">
                <font>
                   <Font name="Calibri Light" size="14.0" />
                </font>
+               <padding>
+                  <Insets top="1.0" />
+               </padding>
             </Label>
-            <Label fx:id="labelRuta" layoutX="60.0" layoutY="6.0" prefHeight="17.0" prefWidth="1186.0">
+            <Label fx:id="labelRuta" contentDisplay="CENTER" layoutX="109.0" layoutY="6.0" prefHeight="23.0" prefWidth="1162.0" style="-fx-border-color: #000000; -fx-border-radius: 4;">
                <font>
                   <Font name="Calibri Light" size="14.0" />
                </font>
+               <padding>
+                  <Insets bottom="2.0" top="2.0" />
+               </padding>
             </Label>
          </children>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
       </Pane>
-      <HBox prefHeight="596.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;">
+      <HBox prefHeight="523.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <Pane prefHeight="585.0" prefWidth="238.0">
                <children>
-                  <TreeView fx:id="arbol" layoutX="2.0" prefHeight="596.0" prefWidth="238.0" />
+                  <TreeView fx:id="arbol" layoutX="2.0" prefHeight="517.0" prefWidth="238.0" />
                </children></Pane>
-            <TableView fx:id="tableArchivos" prefHeight="585.0" prefWidth="818.0" style="-fx-background-color: #FCEDE1;" />
+            <TableView fx:id="tableArchivos" prefHeight="542.0" prefWidth="818.0" style="-fx-background-color: #FCEDE1;" />
             <Pane prefHeight="585.0" prefWidth="224.0">
                <children>
-                  <Label layoutX="58.0" layoutY="23.0" text="CONTENIDO">
+                  <Label fx:id="labelContenido" alignment="TOP_CENTER" layoutX="18.0" layoutY="14.0" prefHeight="495.0" prefWidth="189.0" text="Clickea dos veces en la tabla para abrir el archivo, clickea una vez para seleccionar y puedes eliminar o modificar el archivo" textAlignment="CENTER" wrapText="true">
                      <font>
-                        <Font name="Century Gothic" size="18.0" />
+                        <Font name="Century Gothic" size="14.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
          </children>
       </HBox>
+      <StackPane prefHeight="63.0" prefWidth="1280.0">
+         <children>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Regresar" prefHeight="29.0" prefWidth="1280.0" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Regresar a Tabla">
+               <font>
+                  <Font name="Calibri Light" size="14.0" />
+               </font>
+               <StackPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </StackPane.margin>
+            </Button>
+         </children>
+      </StackPane>
    </children>
 </VBox>

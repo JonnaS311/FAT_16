@@ -61,4 +61,16 @@ public class EntradaDirectorio {
     public String getContent() {
         return file.getContent();
     }
+
+    public Object getFechaCreacion() {
+        return file.getCreationDate();
+    }
+
+    public Object getFechaModificacion() {
+        return file.getModificationDate();
+    }
+
+    public Object getUltimoAcceso() {
+        return file.getLastAccessDate();
+    }
 }

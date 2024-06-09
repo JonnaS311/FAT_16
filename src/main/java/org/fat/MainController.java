@@ -39,7 +39,7 @@ public class MainController {
         try {
             int numSector = Integer.parseInt(numSectorText);
             int numCluster = Integer.parseInt(numClusterText);
-            int numBad = Integer.parseInt(numBadText);
+            double numBad = Double.parseDouble(numBadText);
 
             if (numSector > 0 && numCluster > 0) {
                 TablaFAT tablaFAT = new TablaFAT(numCluster, numSector, numBad);

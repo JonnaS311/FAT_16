@@ -39,7 +39,6 @@ public class TablaFATController {
     }
 
     public void setTablaFATData(TablaFAT tablaFAT) {
-
         tt = tablaFAT;
 
         // Crear una lista observable para almacenar los datos de la tabla

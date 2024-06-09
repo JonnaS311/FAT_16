@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TablaDirectorios {
     private static final int LONGITUD_NOMBRE = 8;
@@ -73,6 +74,40 @@ public class TablaDirectorios {
         return false;
     }
 
+    public boolean modificar(String nombre, String extension, String ruta, String contenido) {
+        DirectorioFAT directorio = navegarARuta(ruta);
+        if (directorio == null) {
+            System.out.println("Error: Ruta no encontrada");
+            return false;
+        }
+
+        for (EntradaDirectorio entrada : directorio.entradas) {
+            if (entrada.file.getName().trim().equals(nombre) && entrada.file.getExtension().trim().equals(extension)) {
+                entrada.file.modifiedFile(contenido);
+                return true;
+            }
+        }
+        System.out.println("Error: Archivo no encontrado");
+        return false;
+    }
+
+    public boolean abrir(String nombre, String extension, String ruta) {
+        DirectorioFAT directorio = navegarARuta(ruta);
+        if (directorio == null) {
+            System.out.println("Error: Ruta no encontrada");
+            return false;
+        }
+
+        for (EntradaDirectorio entrada : directorio.entradas) {
+            if (entrada.file.getName().trim().equals(nombre) && entrada.file.getExtension().trim().equals(extension)) {
+                entrada.file.abrirFile();
+                return true;
+            }
+        }
+        System.out.println("Error: Archivo no encontrado");
+        return false;
+    }
+
     public EntradaDirectorio obtenerEntrada(String nombre, String extension, String ruta) {
         DirectorioFAT directorio = navegarARuta(ruta);
         if (directorio == null) {
@@ -106,6 +141,51 @@ public class TablaDirectorios {
         for (DirectorioFAT subdir : directorio.subdirectorios) {
             System.out.println(subdir);
         }
+    }
+
+    public Object[][] listarEntradasComoArray(String ruta) {
+        DirectorioFAT directorio = navegarARuta(ruta);
+        if (directorio == null) {
+            System.out.println("Error: Ruta no encontrada");
+            return new Object[0][];
+        }
+
+        List<Object[]> listaEntradas = new ArrayList<>();
+
+        for (EntradaDirectorio entrada : directorio.getEntradas()) {
+            Object[] datosEntrada = {
+                    entrada.getNombre() + "." + entrada.getExtension(),
+                    entrada.getExtension(),
+                    entrada.getPrimerCluster(),
+                    entrada.getTamaño(),
+                    entrada.getFechaCreacion(),
+                    entrada.getFechaModificacion(),
+                    entrada.getUltimoAcceso(),
+                    entrada.getAtributo(),
+                    "Archivo",
+                    entrada.getContent(),
+                    entrada
+            };
+            listaEntradas.add(datosEntrada);
+        }
+
+        for (DirectorioFAT subdir : directorio.getSubdirectorios()) {
+            Object[] datosSubdir = {
+                    subdir.getNombre(),
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    "Directorio",
+                    0
+            };
+            listaEntradas.add(datosSubdir);
+        }
+
+        return listaEntradas.toArray(new Object[0][]);
     }
 
     public boolean crearSubdirectorio(String nombre, String rutaPadre) {
@@ -180,6 +260,15 @@ public class TablaDirectorios {
     public DirectorioFAT getRoot() {
         return  this.root;
     }
+
+    /*public void abrirFile (){
+        lastAccessDate = new Date();
+    }
+
+    public void modifiedFile (String content){
+        this.modificationDate = new Date();
+        this.content = content;
+    }*/
 }
 
 
