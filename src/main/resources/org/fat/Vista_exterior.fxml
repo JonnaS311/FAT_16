@@ -24,13 +24,13 @@
          </children>
       </StackPane>
       <ToolBar focusTraversable="false" prefHeight="48.0" prefWidth="1280.0" style="-fx-effect: null; -fx-background-color: #FCEDE1;">
-        <items>
-          <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Directorio" textOverrun="CENTER_WORD_ELLIPSIS">
+         <items>
+            <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Directorio" onAction="#CrearDirectorio" textOverrun="CENTER_WORD_ELLIPSIS">
                <font>
                   <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Archivo">
+            <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Archivo" onAction="#CrearArchivo">
                <font>
                   <Font name="Calibri Light" size="14.0" />
                </font>
@@ -45,7 +45,7 @@
                   <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
-        </items>
+         </items>
       </ToolBar>
       <Pane prefHeight="41.0" prefWidth="1280.0">
          <children>
