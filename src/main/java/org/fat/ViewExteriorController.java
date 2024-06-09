@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -128,7 +129,7 @@ public class ViewExteriorController {
         return "C:\\\\" + ruta.toString(); // Agrega el prefijo de la unidad de disco
     }
 
-    private void actualizarTabla(String ruta) {
+    void actualizarTabla(String ruta) {
         Object[][] datos = tablaDirectorios.listarEntradasComoArray(ruta);
         ObservableList<ObservableList<Object>> data = FXCollections.observableArrayList();
 
@@ -176,7 +177,7 @@ public class ViewExteriorController {
         }
     }
 
-    private void actualizarTreeView() {
+    void actualizarTreeView() {
         // Crear el árbol y establecerlo en el TreeView
         TreeItem<String> treeRoot = buildTree(tablaDirectorios);
         arbol.setRoot(treeRoot);
@@ -199,6 +200,61 @@ public class ViewExteriorController {
         stage.centerOnScreen();
         stage.show();
     }
+
+    @FXML
+    protected void CrearArchivo(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Crear_Archivo.fxml"));
+        Parent root = loader.load();
+
+
+        CrearArchivoController crearArchivoController = loader.getController();
+        crearArchivoController.setDatos(tablaDirectorios, this);
+
+        // Mostrar la nueva escena
+        Stage newStage = new Stage();
+        Scene newScene = new Scene(root);
+        newStage.setTitle("Simulador FAT16 - Crear Archivo");
+        newStage.setScene(newScene);
+        newStage.centerOnScreen();
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+        newStage.show();
+    }
+
+    public Label getLabelRuta() {
+        return labelRuta;
+    }
+
+    public void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    @FXML
+    protected void CrearDirectorio(ActionEvent event) throws IOException {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Crear_Directorio.fxml"));
+        Parent root = loader.load();
+
+        // Obtener el controlador de la nueva escena y pasarle los datos
+        CrearDirectorioController crearDirectorioController = loader.getController();
+        crearDirectorioController.setDatos(tablaDirectorios, this);
+
+        // Mostrar la nueva escena
+        Stage newStage = new Stage();
+        Scene newScene = new Scene(root);
+        newStage.setTitle("Simulador FAT16 - Crear Directorio");
+        newStage.setScene(newScene);
+        newStage.centerOnScreen();
+        newStage.initModality(Modality.WINDOW_MODAL);
+        newStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+        newStage.show();
+    }
+
 
     @FXML
     protected void Modificar(ActionEvent event) throws IOException {
@@ -264,4 +320,3 @@ public class ViewExteriorController {
     }
 
 }
-
