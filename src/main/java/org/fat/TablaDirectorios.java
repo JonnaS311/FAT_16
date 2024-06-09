@@ -1,5 +1,8 @@
 package org.fat;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -34,7 +37,7 @@ public class TablaDirectorios {
             }
         }
 
-        boolean exito = tablaFAT.createFile(file.getSize());
+        boolean exito = tablaFAT.CreateFile(file.getSize());
         if (!exito) {
             System.out.println("Error: No se pudo crear el archivo en la tabla FAT");
             return false;
@@ -56,7 +59,7 @@ public class TablaDirectorios {
 
         for (EntradaDirectorio entrada : directorio.entradas) {
             if (entrada.file.getName().trim().equals(nombre) && entrada.file.getExtension().trim().equals(extension)) {
-                boolean exito = tablaFAT.deleteFile(entrada.primerCluster);
+                boolean exito = tablaFAT.DeleteFile(entrada.primerCluster);
                 if (!exito) {
                     System.out.println("Error: No se pudo eliminar el archivo de la tabla FAT");
                     return false;
@@ -172,8 +175,11 @@ public class TablaDirectorios {
         // Listar los archivos dentro de los directorios
         tablaDirectorios.listarEntradas("C:\\Escritorio\\REDESII");
 
+    }
 
-        //Acá es para mirar que si se está guardando la información en la tablaFAT
-        tablaFAT.imprimirTablaFAT();
+    public DirectorioFAT getRoot() {
+        return  this.root;
     }
 }
+
+

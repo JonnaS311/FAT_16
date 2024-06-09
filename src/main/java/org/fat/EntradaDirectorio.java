@@ -1,6 +1,8 @@
 package org.fat;
 
 
+import java.util.Date;
+
 public class EntradaDirectorio {
     public FileFAT file;
     public int primerCluster;
@@ -22,5 +24,41 @@ public class EntradaDirectorio {
                 "Fecha Modificación: " + file.getModificationDate(),
                 "Último Acceso: " + file.getLastAccessDate(),
                 "Atributo: " + file.getAttribute());
+    }
+
+    public String getNombre() {
+        return file.getName();
+    }
+
+    public String getExtension() {
+        return file.getExtension();
+    }
+
+    public int getPrimerCluster() {
+        return primerCluster;
+    }
+
+    public int getTamaño() {
+        return file.getSize();
+    }
+
+    public Date getFechaCreación() {
+        return file.getCreationDate();
+    }
+
+    public Date getFechaModificación() {
+        return file.getModificationDate();
+    }
+
+    public Date getÚltimoAcceso() {
+        return file.getLastAccessDate();
+    }
+
+    public int getAtributo() {
+        return file.getAttribute();
+    }
+
+    public String getContent() {
+        return file.getContent();
     }
 }

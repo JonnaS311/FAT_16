@@ -34,4 +34,16 @@ public class DirectorioFAT {
     public String toString() {
         return "Directorio: " + nombre + ", Archivos: " + entradas.size() + ", Subdirectorios: " + subdirectorios.size();
     }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public ArrayList<DirectorioFAT> getSubdirectorios() {
+        return subdirectorios;
+    }
+
+    public ArrayList<EntradaDirectorio> getEntradas() {
+        return entradas;
+    }
 }

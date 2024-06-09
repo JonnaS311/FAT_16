@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.MainController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.ViewExteriorController">
    <children>
       <StackPane prefHeight="58.0" prefWidth="1280.0" style="-fx-background-color: #E57B21;">
          <children>
             <Label text="SISTEMA DE ARCHIVOS - FAT16" textFill="WHITE">
                <font>
-                  <Font name="Comfortaa Medium" size="21.0" />
+                  <Font name="Century Gothic" size="21.0" />
                </font>
             </Label>
          </children>
@@ -19,35 +26,61 @@
         <items>
           <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Directorio" textOverrun="CENTER_WORD_ELLIPSIS">
                <font>
-                  <Font name="Comfortaa Regular" size="14.0" />
+                  <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Archivo">
                <font>
-                  <Font name="Comfortaa Regular" size="14.0" />
+                  <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Modificar">
                <font>
-                  <Font name="Comfortaa Regular" size="14.0" />
+                  <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Eliminar">
                <font>
-                  <Font name="Comfortaa Regular" size="14.0" />
+                  <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
-            <Button layoutX="323.0" layoutY="13.0" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Regresar a Tabla" onAction="#Regresar">
+            <Button layoutX="323.0" layoutY="13.0" mnemonicParsing="false" onAction="#Regresar" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Regresar a Tabla">
                <font>
-                  <Font name="Comfortaa Regular" size="14.0" />
+                  <Font name="Calibri Light" size="14.0" />
                </font>
             </Button>
         </items>
       </ToolBar>
+      <Pane prefHeight="41.0" prefWidth="1280.0">
+         <children>
+            <Label layoutX="19.0" layoutY="6.0" prefHeight="17.0" prefWidth="35.0" text="Ruta: ">
+               <font>
+                  <Font name="Calibri Light" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="labelRuta" layoutX="60.0" layoutY="6.0" prefHeight="17.0" prefWidth="1186.0">
+               <font>
+                  <Font name="Calibri Light" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
       <HBox prefHeight="596.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;">
          <children>
-            <Pane prefHeight="596.0" prefWidth="311.0" />
-            <TreeView prefHeight="596.0" prefWidth="991.0" />
+            <Pane prefHeight="585.0" prefWidth="238.0">
+               <children>
+                  <TreeView fx:id="arbol" layoutX="2.0" prefHeight="596.0" prefWidth="238.0" />
+               </children></Pane>
+            <TableView fx:id="tableArchivos" prefHeight="585.0" prefWidth="818.0" style="-fx-background-color: #FCEDE1;" />
+            <Pane prefHeight="585.0" prefWidth="224.0">
+               <children>
+                  <Label layoutX="58.0" layoutY="23.0" text="CONTENIDO">
+                     <font>
+                        <Font name="Century Gothic" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
          </children>
       </HBox>
    </children>
