@@ -120,6 +120,25 @@ public class TablaFAT {
         return tabla;
     }
 
+    // contar memoria
+    public int getMemoriaRestante(){
+        return SECTOR_SIZE*this.sector*contarLibres();
+    }
+
+    public int getMemoriaTotal(){
+        return SECTOR_SIZE*this.sector*this.clusterNumber;
+    }
+
+    public int contarLibres(){
+        int contador = 0;
+        for (int i = 0; i < this.table.length; i++) {
+            if(this.table[i] == 0){
+                contador += 1;
+            }
+        }
+        return contador;
+    }
+
     // Auto-generated Setters & Getters
     public int getClusterNumber() {
         return clusterNumber;
