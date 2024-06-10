@@ -1,16 +1,22 @@
 package org.fat;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DirectorioFAT {
     public String nombre;
     public ArrayList<EntradaDirectorio> entradas;
     public ArrayList<DirectorioFAT> subdirectorios;
+    public final int ATTRIBUTE = 16;
+    public Date dirCreatedDate;
+    public Date dirModifiedDate;
 
     public DirectorioFAT(String nombre) {
         this.nombre = nombre;
         this.entradas = new ArrayList<>();
         this.subdirectorios = new ArrayList<>();
+        this.dirCreatedDate = new Date();
+        this.dirModifiedDate = new Date();
     }
 
     public void agregarEntrada(EntradaDirectorio entrada) {
@@ -49,5 +55,21 @@ public class DirectorioFAT {
 
     public ArrayList<EntradaDirectorio> getEntradas() {
         return entradas;
+    }
+
+    public Date getDirCreatedDate() {
+        return dirCreatedDate;
+    }
+
+    public Date getDirModifiedDate() {
+        return dirModifiedDate;
+    }
+
+    public void setDirModifiedDate(Date dirModifiedDate) {
+        this.dirModifiedDate = dirModifiedDate;
+    }
+
+    public int getATTRIBUTE() {
+        return ATTRIBUTE;
     }
 }

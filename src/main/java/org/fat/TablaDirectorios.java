@@ -17,6 +17,7 @@ public class TablaDirectorios {
     public TablaDirectorios(TablaFAT tablaFAT) {
         this.root = new DirectorioFAT("root");
         this.tablaFAT = tablaFAT;
+        this.tablaFAT.CreateFile(16384); // Añadir el directorio ROOT a la tabla fat
     }
 
     public String agregarEntrada(FileFAT file, String ruta) {
@@ -94,10 +95,10 @@ public class TablaDirectorios {
             System.out.println("Error: Ruta no encontrada");
             return false;
         }
-
         for (DirectorioFAT subdir : directorio.subdirectorios) {
             if (subdir.getNombre().trim().equals(nombreAnt)) {
                 subdir.setNombre(nombreAct);
+                subdir.setDirModifiedDate(new Date()); // Actualizamos la fecha de modificación
                 return true;
             }
         }
@@ -207,7 +208,7 @@ public class TablaDirectorios {
         if (directorioPadre == null) {
             return "Error: Ruta del directorio padre no encontrada";
         }
-
+        this.tablaFAT.CreateFile(16384); // Añadimos el subdirectorio a la tabla fat.
         DirectorioFAT nuevoSubdirectorio = new DirectorioFAT(nombre);
         directorioPadre.agregarSubdirectorio(nuevoSubdirectorio);
         return "true";
