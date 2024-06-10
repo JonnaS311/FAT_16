@@ -15,7 +15,7 @@ public class TablaDirectorios {
     private TablaFAT tablaFAT;
 
     public TablaDirectorios(TablaFAT tablaFAT) {
-        this.root = new DirectorioFAT("root");
+        this.root = new DirectorioFAT("Disco local (C:)");
         this.tablaFAT = tablaFAT;
         this.tablaFAT.CreateFile(16384); // Añadir el directorio ROOT a la tabla fat
     }
@@ -190,10 +190,10 @@ public class TablaDirectorios {
                     "",
                     "",
                     "",
+                    subdir.getDirCreatedDate(),
+                    subdir.getDirModifiedDate(),
                     "",
-                    "",
-                    "",
-                    "",
+                    subdir.getATTRIBUTE(),
                     "Directorio",
                     ""
             };

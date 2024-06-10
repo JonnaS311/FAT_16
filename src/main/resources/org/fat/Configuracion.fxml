@@ -93,9 +93,9 @@
             <Font name="Calibri Light" size="14.0" />
          </font>
       </Label>
-      <Button mnemonicParsing="false" onAction="#IniciarSimulacion" prefHeight="36.0" prefWidth="323.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Iniciar simulación" textAlignment="CENTER">
+      <Button mnemonicParsing="false" onAction="#IniciarSimulacion" prefHeight="36.0" prefWidth="416.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Iniciar simulación" textAlignment="CENTER">
          <font>
-            <Font name="Calibri Light" size="18.0" />
+            <Font name="Candara Light" size="17.0" />
          </font>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

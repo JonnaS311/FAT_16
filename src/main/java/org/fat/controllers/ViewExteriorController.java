@@ -37,6 +37,11 @@ public class ViewExteriorController {
 
     @FXML
     private TableView<ObservableList<Object>> tableArchivos;
+    @FXML
+    private Label labelEstadoMemoria;
+
+    @FXML
+    private ProgressBar pBarEstadoMemoria;
 
     private TablaDirectorios VartablaDirectorios;
 
@@ -110,6 +115,12 @@ public class ViewExteriorController {
             }
         });
 
+        labelEstadoMemoria.setText(vartablaFat.getMemoriaRestante() + " B disponibles de " + vartablaFat.getMemoriaTotal() + " B");
+        // Calcular el progreso como un porcentaje
+        float progreso = 1 - (((vartablaFat.getMemoriaRestante() / (float) vartablaFat.getMemoriaTotal()) * 100) / 100);
+
+        // Actualizar el progreso del ProgressBar
+        pBarEstadoMemoria.setProgress(progreso);
         configurarTableView();
     }
 
@@ -130,6 +141,9 @@ public class ViewExteriorController {
     }
 
     public void actualizarTabla(String ruta) {
+        labelEstadoMemoria.setText(vartablaFat.getMemoriaRestante() + " B disponibles de " + vartablaFat.getMemoriaTotal() + " B");
+        float progreso = 1 - (((vartablaFat.getMemoriaRestante() / (float) vartablaFat.getMemoriaTotal()) * 100) / 100);
+        pBarEstadoMemoria.setProgress(progreso);
         Object[][] datos = VartablaDirectorios.listarEntradasComoArray(ruta);
         ObservableList<ObservableList<Object>> data = FXCollections.observableArrayList();
 
@@ -179,6 +193,9 @@ public class ViewExteriorController {
         tableArchivos.getColumns().addAll(imageColumn);
         tableArchivos.getColumns().remove(imageColumn);
         tableArchivos.getColumns().add(0, imageColumn);
+        tableArchivos.getColumns().get(0).setPrefWidth(25);
+        tableArchivos.getColumns().get(0).setMaxWidth(25);
+        tableArchivos.getColumns().get(0).setMinWidth(25);
     }
 
     private ObservableList<Object> obtenerElementoTableView(){
@@ -311,7 +328,7 @@ public class ViewExteriorController {
                 // Mostrar la nueva escena
                 Stage newStage = new Stage();
                 Scene newScene = new Scene(root);
-                newStage.setTitle("Simulador FAT16 - Crear Directorio");
+                newStage.setTitle("Simulador FAT16 - Modificar Archivo");
                 newStage.setScene(newScene);
                 newStage.centerOnScreen();
                 newStage.initModality(Modality.WINDOW_MODAL);
@@ -328,7 +345,7 @@ public class ViewExteriorController {
                 // Mostrar la nueva escena
                 Stage newStage = new Stage();
                 Scene newScene = new Scene(root);
-                newStage.setTitle("Simulador FAT16 - Crear Directorio");
+                newStage.setTitle("Simulador FAT16 - Modificar Directorio");
                 newStage.setScene(newScene);
                 newStage.centerOnScreen();
                 newStage.initModality(Modality.WINDOW_MODAL);
@@ -345,27 +362,33 @@ public class ViewExteriorController {
     @FXML
     protected void Eliminar(ActionEvent event) throws IOException {
         ObservableList<Object> selectedItem = obtenerElementoTableView();
-        if (selectedItem != null) {
-            String nombreArchivo = selectedItem.get(0).toString();
-            int puntoIndex = nombreArchivo.indexOf('.');
-            if (puntoIndex != -1) {
-                nombreArchivo = nombreArchivo.substring(0, puntoIndex);
-            }
-            String extensionArchivo = selectedItem.get(1).toString();
-            String rutaActual = labelRuta.getText() + "\\\\";
+        if (selectedItem != null){
+            if (selectedItem.get(8) == "Archivo") {
+                String nombreArchivo = selectedItem.get(0).toString();
+                int puntoIndex = nombreArchivo.indexOf('.');
+                if (puntoIndex != -1) {
+                    nombreArchivo = nombreArchivo.substring(0, puntoIndex);
+                }
+                String extensionArchivo = selectedItem.get(1).toString();
+                String rutaActual = labelRuta.getText() + "\\\\";
 
-            // Intenta eliminar la entrada
-            if (VartablaDirectorios.eliminarEntrada(nombreArchivo, extensionArchivo, rutaActual)) {
-                // Muestra la alerta de éxito
-                mostrarAlerta("Archivo borrado", "El archivo " + nombreArchivo + " se ha borrado con éxito.");
+                // Intenta eliminar la entrada
+                if (VartablaDirectorios.eliminarEntrada(nombreArchivo, extensionArchivo, rutaActual)) {
+                    // Muestra la alerta de éxito
+                    mostrarAlerta("Archivo borrado", "El archivo " + nombreArchivo + " se ha borrado con éxito.");
 
-                // Actualiza la tabla después de eliminar el archivo
-                actualizarTabla(rutaActual);
-                actualizarTreeView();
+                    // Actualiza la tabla después de eliminar el archivo
+                    actualizarTabla(rutaActual);
+                    actualizarTreeView();
+                } else {
+                    // Muestra una alerta si la eliminación falla
+                    mostrarAlerta("Error", "No se pudo borrar el archivo " + nombreArchivo + ".");
+                }
+
             } else {
-                // Muestra una alerta si la eliminación falla
-                mostrarAlerta("Error", "No se pudo borrar el archivo " + nombreArchivo + ".");
+                // Espacio para eliminar directorios
             }
+
         } else {
             // Muestra una alerta si no hay ninguna fila seleccionada
             mostrarAlerta("Advertencia", "Por favor, selecciona un archivo para eliminar.");
@@ -379,7 +402,7 @@ public class ViewExteriorController {
         // Mostrar la nueva escena
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
-        stage.setTitle("Simulador FAT16 - Tabla de Asignación de Archivos");
+        stage.setTitle("Simulador FAT16 - Configuración inicial");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -391,8 +414,24 @@ public class ViewExteriorController {
         if (ultimaEntrada != -1) {
             rutaActual = rutaActual.substring(0, ultimaEntrada);
         }
-        System.out.println(rutaActual);
         actualizarTabla(rutaActual);
         labelRuta.setText(rutaActual);
+    }
+
+    public void VisualizarBoot(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Vista_Boot_Sector.fxml"));
+        Parent root = loader.load();
+
+        // Obtener el controlador de la nueva escena y pasarle los datos
+        BootSectorController bootSectorController = loader.getController();
+        bootSectorController.setDatos(vartablaFat, this, VartablaDirectorios);
+
+        // Mostrar la nueva escena
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Simulador FAT16 - Tabla de Boot Sector");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }

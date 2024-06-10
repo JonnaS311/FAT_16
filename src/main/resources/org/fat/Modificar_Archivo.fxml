@@ -43,6 +43,9 @@
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                </HBox.margin>
+               <font>
+                  <Font name="Calibri Light" size="14.0" />
+               </font>
             </TextField>
          </children>
       </HBox>
@@ -56,7 +59,10 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="areaContenido" prefHeight="65.0" prefWidth="400.0" />
+            <TextArea fx:id="areaContenido" prefHeight="65.0" prefWidth="400.0">
+               <font>
+                  <Font name="Calibri Light" size="14.0" />
+               </font></TextArea>
          </children>
          <VBox.margin>
             <Insets />
@@ -64,7 +70,7 @@
       </HBox>
       <Button fx:id="btnModificar" mnemonicParsing="false" onAction="#BotonModificarArchivo" prefHeight="36.0" prefWidth="513.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Guardar cambios">
          <font>
-            <Font name="Calibri Light" size="18.0" />
+            <Font name="Candara Light" size="17.0" />
          </font>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

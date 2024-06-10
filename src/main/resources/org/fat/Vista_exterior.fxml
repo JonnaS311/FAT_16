@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
@@ -27,7 +28,7 @@
       </StackPane>
       <HBox prefHeight="93.0" prefWidth="1280.0" style="-fx-background-color: #F6EFEA;">
          <children>
-            <ToolBar focusTraversable="false" prefHeight="101.0" prefWidth="972.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
+            <ToolBar focusTraversable="false" prefHeight="101.0" prefWidth="460.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
                <items>
                   <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#CrearDirectorio" prefHeight="91.0" prefWidth="119.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;" textOverrun="CENTER_WORD_ELLIPSIS">
                      <font>
@@ -139,6 +140,66 @@
                   </Button>
                </items>
             </ToolBar>
+            <VBox prefHeight="101.0" prefWidth="368.0">
+               <children>
+                  <StackPane prefHeight="35.0" prefWidth="364.0">
+                     <children>
+                        <Label text="Estado de la memoria">
+                           <font>
+                              <Font name="Candara Light" size="16.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </StackPane.margin>
+                        </Label>
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="66.0" prefWidth="364.0">
+                     <children>
+                        <ProgressBar fx:id="pBarEstadoMemoria" prefHeight="30.0" prefWidth="250.0" progress="0.0" />
+                     </children>
+                  </StackPane>
+                  <StackPane prefHeight="63.0" prefWidth="364.0">
+                     <children>
+                        <Label fx:id="labelEstadoMemoria">
+                           <font>
+                              <Font name="Candara Light" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </StackPane>
+               </children>
+            </VBox>
+            <Button fx:id="btnBootSector" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#VisualizarBoot" prefHeight="91.0" prefWidth="162.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
+               <font>
+                  <Font name="Calibri Light" size="16.0" />
+               </font>
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="51.0" fitWidth="78.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Imagenes/disco-duro5.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Label text="Visualizar Boot Sector">
+                           <font>
+                              <Font name="Candara Light" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </graphic>
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+            </Button>
             <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Regresar" prefHeight="91.0" prefWidth="141.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
                <font>
                   <Font name="Calibri Light" size="16.0" />

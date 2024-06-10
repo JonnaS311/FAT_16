@@ -38,7 +38,7 @@
           </TableView>
             <Button mnemonicParsing="false" onAction="#IrGestor" prefHeight="35.0" prefWidth="769.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Ir al Gestor de Archivos">
                 <font>
-                    <Font name="Calibri Light" size="16.0" />
+                    <Font name="Candara Light" size="16.0" />
                 </font>
             </Button>
       </children>
