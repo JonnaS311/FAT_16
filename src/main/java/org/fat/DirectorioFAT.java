@@ -10,6 +10,7 @@ public class DirectorioFAT {
     public final int ATTRIBUTE = 16;
     public Date dirCreatedDate;
     public Date dirModifiedDate;
+    public int primerCluster;
 
     public DirectorioFAT(String nombre) {
         this.nombre = nombre;
@@ -71,5 +72,13 @@ public class DirectorioFAT {
 
     public int getATTRIBUTE() {
         return ATTRIBUTE;
+    }
+
+    public int getPrimerCluster() {
+        return primerCluster;
+    }
+
+    public void setPrimerCluster(int primerCluster) {
+        this.primerCluster = primerCluster;
     }
 }

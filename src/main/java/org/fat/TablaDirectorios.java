@@ -208,8 +208,13 @@ public class TablaDirectorios {
         if (directorioPadre == null) {
             return "Error: Ruta del directorio padre no encontrada";
         }
-        this.tablaFAT.CreateFile(16384); // Añadimos el subdirectorio a la tabla fat.
+        boolean flag = this.tablaFAT.CreateFile(16384); // Añadimos el subdirectorio a la tabla fat.
         DirectorioFAT nuevoSubdirectorio = new DirectorioFAT(nombre);
+        if(flag){
+            nuevoSubdirectorio.setPrimerCluster(this.tablaFAT.getTable_first_cluster().get(this.tablaFAT.getTable_first_cluster().size()-1));
+        }else {
+            return "False";
+        }
         directorioPadre.agregarSubdirectorio(nuevoSubdirectorio);
         return "true";
     }
