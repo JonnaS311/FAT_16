@@ -37,6 +37,11 @@ public class ViewExteriorController {
 
     @FXML
     private TableView<ObservableList<Object>> tableArchivos;
+    @FXML
+    private Label labelEstadoMemoria;
+
+    @FXML
+    private ProgressBar pBarEstadoMemoria;
 
     private TablaDirectorios VartablaDirectorios;
 
@@ -110,6 +115,12 @@ public class ViewExteriorController {
             }
         });
 
+        labelEstadoMemoria.setText(vartablaFat.getMemoriaRestante() + " B disponibles de " + vartablaFat.getMemoriaTotal() + " B");
+        // Calcular el progreso como un porcentaje
+        float progreso = 1 - (((vartablaFat.getMemoriaRestante() / (float) vartablaFat.getMemoriaTotal()) * 100) / 100);
+
+        // Actualizar el progreso del ProgressBar
+        pBarEstadoMemoria.setProgress(progreso);
         configurarTableView();
     }
 
@@ -130,6 +141,9 @@ public class ViewExteriorController {
     }
 
     public void actualizarTabla(String ruta) {
+        labelEstadoMemoria.setText(vartablaFat.getMemoriaRestante() + " B disponibles de " + vartablaFat.getMemoriaTotal() + " B");
+        float progreso = 1 - (((vartablaFat.getMemoriaRestante() / (float) vartablaFat.getMemoriaTotal()) * 100) / 100);
+        pBarEstadoMemoria.setProgress(progreso);
         Object[][] datos = VartablaDirectorios.listarEntradasComoArray(ruta);
         ObservableList<ObservableList<Object>> data = FXCollections.observableArrayList();
 
@@ -348,27 +362,33 @@ public class ViewExteriorController {
     @FXML
     protected void Eliminar(ActionEvent event) throws IOException {
         ObservableList<Object> selectedItem = obtenerElementoTableView();
-        if (selectedItem != null) {
-            String nombreArchivo = selectedItem.get(0).toString();
-            int puntoIndex = nombreArchivo.indexOf('.');
-            if (puntoIndex != -1) {
-                nombreArchivo = nombreArchivo.substring(0, puntoIndex);
-            }
-            String extensionArchivo = selectedItem.get(1).toString();
-            String rutaActual = labelRuta.getText() + "\\\\";
+        if (selectedItem != null){
+            if (selectedItem.get(8) == "Archivo") {
+                String nombreArchivo = selectedItem.get(0).toString();
+                int puntoIndex = nombreArchivo.indexOf('.');
+                if (puntoIndex != -1) {
+                    nombreArchivo = nombreArchivo.substring(0, puntoIndex);
+                }
+                String extensionArchivo = selectedItem.get(1).toString();
+                String rutaActual = labelRuta.getText() + "\\\\";
 
-            // Intenta eliminar la entrada
-            if (VartablaDirectorios.eliminarEntrada(nombreArchivo, extensionArchivo, rutaActual)) {
-                // Muestra la alerta de éxito
-                mostrarAlerta("Archivo borrado", "El archivo " + nombreArchivo + " se ha borrado con éxito.");
+                // Intenta eliminar la entrada
+                if (VartablaDirectorios.eliminarEntrada(nombreArchivo, extensionArchivo, rutaActual)) {
+                    // Muestra la alerta de éxito
+                    mostrarAlerta("Archivo borrado", "El archivo " + nombreArchivo + " se ha borrado con éxito.");
 
-                // Actualiza la tabla después de eliminar el archivo
-                actualizarTabla(rutaActual);
-                actualizarTreeView();
+                    // Actualiza la tabla después de eliminar el archivo
+                    actualizarTabla(rutaActual);
+                    actualizarTreeView();
+                } else {
+                    // Muestra una alerta si la eliminación falla
+                    mostrarAlerta("Error", "No se pudo borrar el archivo " + nombreArchivo + ".");
+                }
+
             } else {
-                // Muestra una alerta si la eliminación falla
-                mostrarAlerta("Error", "No se pudo borrar el archivo " + nombreArchivo + ".");
+                // Espacio para eliminar directorios
             }
+
         } else {
             // Muestra una alerta si no hay ninguna fila seleccionada
             mostrarAlerta("Advertencia", "Por favor, selecciona un archivo para eliminar.");

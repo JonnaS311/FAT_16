@@ -190,10 +190,10 @@ public class TablaDirectorios {
                     "",
                     "",
                     "",
+                    subdir.getDirCreatedDate(),
+                    subdir.getDirModifiedDate(),
                     "",
-                    "",
-                    "",
-                    "",
+                    subdir.getATTRIBUTE(),
                     "Directorio",
                     ""
             };
