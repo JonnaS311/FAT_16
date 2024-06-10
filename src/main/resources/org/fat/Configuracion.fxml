@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="444.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.MainController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="473.0" prefWidth="444.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.controllers.MainController">
    <children>
       <StackPane prefHeight="58.0" prefWidth="600.0" style="-fx-background-color: #E57B21;">
          <children>
@@ -20,9 +20,9 @@
             </Label>
          </children>
       </StackPane>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="244.0" style="-fx-alignment: CENTER;" text="Configuración Inicial del Disco">
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="29.0" prefWidth="331.0" style="-fx-alignment: CENTER;" text="CONFIGURACIÓN INICIAL DEL DISCO">
          <font>
-            <Font name="Calibri Light" size="18.0" />
+            <Font name="Century Gothic" size="18.0" />
          </font>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="40.0" />
@@ -88,6 +88,11 @@
             </TextField>
          </children>
       </HBox>
+      <Label fx:id="Advertencia" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="88.0" prefHeight="22.0" prefWidth="328.0" style="-fx-alignment: CENTER;" textFill="#cd6339">
+         <font>
+            <Font name="Calibri Light" size="14.0" />
+         </font>
+      </Label>
       <Button mnemonicParsing="false" onAction="#IniciarSimulacion" prefHeight="36.0" prefWidth="323.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Iniciar simulación" textAlignment="CENTER">
          <font>
             <Font name="Calibri Light" size="18.0" />
@@ -96,10 +101,5 @@
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </VBox.margin>
       </Button>
-      <Label fx:id="Advertencia" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="88.0" prefHeight="22.0" prefWidth="328.0" style="-fx-alignment: CENTER;" textFill="#cd6339">
-         <font>
-            <Font name="Calibri Light" size="14.0" />
-         </font>
-      </Label>
    </children>
 </VBox>

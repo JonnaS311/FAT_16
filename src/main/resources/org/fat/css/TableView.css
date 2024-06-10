@@ -1,0 +1,13 @@
+.table-view {
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 14px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f4f4f4;
+}
+
+.table-view .table-row-cell {
+    -fx-font-family: "Calibri Light";
+    -fx-font-size: 14px;
+}

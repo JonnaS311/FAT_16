@@ -1,8 +1,5 @@
-package org.fat;
+package org.fat.controllers;
 
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.fat.TablaDirectorios;
+import org.fat.TablaFAT;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainController {
     @FXML
@@ -43,14 +41,15 @@ public class MainController {
 
             if (numSector > 0 && numCluster > 0) {
                 TablaFAT tablaFAT = new TablaFAT(numCluster, numSector, numBad);
+                TablaDirectorios tablaDirectorios = new TablaDirectorios(tablaFAT);
 
                 // Cargar la nueva escena
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("view.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../view.fxml"));
                 Parent root = loader.load();
 
                 // Obtener el controlador de la nueva escena y pasarle los datos
                 TablaFATController tablaFATController = loader.getController();
-                tablaFATController.setTablaFATData(tablaFAT);
+                tablaFATController.setTablaFATData(tablaFAT, tablaDirectorios);
 
                 // Mostrar la nueva escena
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

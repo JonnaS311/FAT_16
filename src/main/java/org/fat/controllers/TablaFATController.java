@@ -1,4 +1,4 @@
-package org.fat;
+package org.fat.controllers;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
@@ -12,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
+import org.fat.TablaDirectorios;
+import org.fat.TablaFAT;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,15 +22,17 @@ public class TablaFATController {
     @FXML
     private TableView<ObservableList<String>> tablaFATvisual;
 
-    private TablaFAT tt;
+    private TablaDirectorios VartablaDirectorios;
+
+    private TablaFAT vartablaFat;
 
     @FXML
     protected void IrGestor(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Vista_exterior.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Vista_exterior.fxml"));
         Parent root = loader.load();
 
         ViewExteriorController viewExteriorController = loader.getController();
-        viewExteriorController.initialize(tt);
+        viewExteriorController.initialize(vartablaFat, VartablaDirectorios);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -38,8 +42,9 @@ public class TablaFATController {
 
     }
 
-    public void setTablaFATData(TablaFAT tablaFAT) {
-        tt = tablaFAT;
+    public void setTablaFATData(TablaFAT tablaFAT, TablaDirectorios tablaDirectorios) {
+        vartablaFat = tablaFAT;
+        VartablaDirectorios = tablaDirectorios;
 
         // Crear una lista observable para almacenar los datos de la tabla
         ArrayList<int[]> datosTabla = tablaFAT.getFormattedTable();

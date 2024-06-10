@@ -19,36 +19,32 @@ public class TablaDirectorios {
         this.tablaFAT = tablaFAT;
     }
 
-    public boolean agregarEntrada(FileFAT file, String ruta) {
+    public String agregarEntrada(FileFAT file, String ruta) {
         if (file.getName().length() > LONGITUD_NOMBRE || file.getExtension().length() > LONGITUD_EXTENSION) {
-            System.out.println("Error: Nombre de archivo o extensión inválidos");
-            return false;
+            return "Error: Nombre de archivo o extensión inválidos";
         }
 
         DirectorioFAT directorio = navegarARuta(ruta);
         if (directorio == null) {
-            System.out.println("Error: Ruta no encontrada");
-            return false;
+            return "Error: Ruta no encontrada";
         }
 
         for (EntradaDirectorio entrada : directorio.entradas) {
             if (entrada.file.getName().trim().equals(file.getName()) && entrada.file.getExtension().trim().equals(file.getExtension())) {
-                System.out.println("Error: El archivo ya existe");
-                return false;
+                return "Error: El archivo ya existe";
             }
         }
 
         boolean exito = tablaFAT.CreateFile(file.getSize());
         if (!exito) {
-            System.out.println("Error: No se pudo crear el archivo en la tabla FAT");
-            return false;
+            return "Error: No se pudo crear el archivo en la tabla FAT";
         }
 
         int primerCluster = tablaFAT.getTable_first_cluster().get(tablaFAT.getTable_first_cluster().size() - 1);
         EntradaDirectorio nuevaEntrada = new EntradaDirectorio(file, primerCluster, ruta);
 
         directorio.agregarEntrada(nuevaEntrada);
-        return true;
+        return "true";
     }
 
     public boolean eliminarEntrada(String nombre, String extension, String ruta) {
@@ -74,7 +70,7 @@ public class TablaDirectorios {
         return false;
     }
 
-    public boolean modificar(String nombre, String extension, String ruta, String contenido) {
+    public boolean modificarEntradas(String nombre, String extension, String ruta, String nombreAct, String contenido) {
         DirectorioFAT directorio = navegarARuta(ruta);
         if (directorio == null) {
             System.out.println("Error: Ruta no encontrada");
@@ -84,10 +80,28 @@ public class TablaDirectorios {
         for (EntradaDirectorio entrada : directorio.entradas) {
             if (entrada.file.getName().trim().equals(nombre) && entrada.file.getExtension().trim().equals(extension)) {
                 entrada.file.modifiedFile(contenido);
+                entrada.file.setName(nombreAct);
                 return true;
             }
         }
         System.out.println("Error: Archivo no encontrado");
+        return false;
+    }
+
+    public boolean modificarSubdirectorios(String ruta, String nombreAnt, String nombreAct) {
+        DirectorioFAT directorio = navegarARuta(ruta);
+        if (directorio == null) {
+            System.out.println("Error: Ruta no encontrada");
+            return false;
+        }
+
+        for (DirectorioFAT subdir : directorio.subdirectorios) {
+            if (subdir.getNombre().trim().equals(nombreAnt)) {
+                subdir.setNombre(nombreAct);
+                return true;
+            }
+        }
+        System.out.println("Error: Directorio no encontrado");
         return false;
     }
 
@@ -172,15 +186,15 @@ public class TablaDirectorios {
         for (DirectorioFAT subdir : directorio.getSubdirectorios()) {
             Object[] datosSubdir = {
                     subdir.getNombre(),
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
-                    0,
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
                     "Directorio",
-                    0
+                    ""
             };
             listaEntradas.add(datosSubdir);
         }
@@ -188,16 +202,15 @@ public class TablaDirectorios {
         return listaEntradas.toArray(new Object[0][]);
     }
 
-    public boolean crearSubdirectorio(String nombre, String rutaPadre) {
+    public String crearSubdirectorio(String nombre, String rutaPadre) {
         DirectorioFAT directorioPadre = navegarARuta(rutaPadre);
         if (directorioPadre == null) {
-            System.out.println("Error: Ruta del directorio padre no encontrada");
-            return false;
+            return "Error: Ruta del directorio padre no encontrada";
         }
 
         DirectorioFAT nuevoSubdirectorio = new DirectorioFAT(nombre);
         directorioPadre.agregarSubdirectorio(nuevoSubdirectorio);
-        return true;
+        return "true";
     }
 
     private DirectorioFAT navegarARuta(String ruta) {
@@ -242,9 +255,9 @@ public class TablaDirectorios {
         tablaDirectorios.crearSubdirectorio("TRABAJOS", "C:\\Escritorio\\REDESII");
 
         //Crea objetos de tipo FileFAT 
-        FileFAT archivo1 = new FileFAT("archivo1", "txt", new Date(), 32, 204869, "Contenido del archivo 1");
-        FileFAT archivo2 = new FileFAT("archivo2", "pdf", new Date(), 32, 404869, "Contenido del archivo 2");
-        FileFAT archivo3 = new FileFAT("archivo3", "doc", new Date(), 32, 404869, "Contenido del archivo 3");
+        FileFAT archivo1 = new FileFAT("archivo1", "txtddd", new Date(), 32, 204869, "Contenido del archivo 1");
+        FileFAT archivo2 = new FileFAT("archivo2", "pdfhhhhh", new Date(), 32, 404869, "Contenido del archivo 2");
+        FileFAT archivo3 = new FileFAT("archivo3", "docddd", new Date(), 32, 404869, "Contenido del archivo 3");
 
         // Agregar archivos a los directorios
         tablaDirectorios.agregarEntrada(archivo1, "C:\\Escritorio");
@@ -260,15 +273,6 @@ public class TablaDirectorios {
     public DirectorioFAT getRoot() {
         return  this.root;
     }
-
-    /*public void abrirFile (){
-        lastAccessDate = new Date();
-    }
-
-    public void modifiedFile (String content){
-        this.modificationDate = new Date();
-        this.content = content;
-    }*/
 }
 
 

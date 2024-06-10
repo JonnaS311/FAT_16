@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="628.0" prefWidth="448.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.CrearArchivoController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="495.0" prefWidth="560.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.controllers.CrearArchivoController">
    <children>
       <StackPane prefHeight="58.0" prefWidth="448.0" style="-fx-background-color: #E57B21;">
          <children>
@@ -16,9 +21,9 @@
             </Label>
          </children>
       </StackPane>
-      <Label prefHeight="30.0" prefWidth="400.0" text="Crear archivo">
+      <Label alignment="CENTER" prefHeight="28.0" prefWidth="510.0" text="CREAR ARCHIVO">
          <font>
-            <Font name="Calibri Light" size="18.0" />
+            <Font name="Century Gothic" size="18.0" />
          </font>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -26,9 +31,9 @@
       </Label>
       <HBox prefHeight="45.0" prefWidth="448.0">
          <children>
-            <HBox prefHeight="29.0" prefWidth="448.0">
+            <HBox prefHeight="45.0" prefWidth="566.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="190.0" text="Nombre del archivo:" textAlignment="CENTER">
+                  <Label prefHeight="22.0" prefWidth="157.0" text="Nombre del archivo:" textAlignment="CENTER">
                      <HBox.margin>
                         <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -36,7 +41,7 @@
                         <Font name="Calibri Light" size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="fieldArchivo">
+                  <TextField fx:id="fieldArchivo" prefHeight="25.0" prefWidth="333.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                      </HBox.margin>
@@ -47,7 +52,7 @@
       </HBox>
       <HBox prefHeight="45.0" prefWidth="448.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Extensión:" textAlignment="CENTER">
+            <Label prefHeight="22.0" prefWidth="89.0" text="Extensión:" textAlignment="CENTER">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -55,7 +60,7 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="extensionField">
+            <TextField fx:id="extensionField" prefHeight="25.0" prefWidth="403.0">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                </HBox.margin>
@@ -64,7 +69,7 @@
       </HBox>
       <HBox prefHeight="45.0" prefWidth="448.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Fecha de creación:" textAlignment="CENTER">
+            <Label prefHeight="22.0" prefWidth="90.0" text="Atributo:" textAlignment="CENTER">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -72,27 +77,7 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <Label prefHeight="22.0" prefWidth="149.0">
-               <font>
-                  <Font name="Calibri Light" size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
-               </HBox.margin>
-            </Label>
-         </children>
-      </HBox>
-      <HBox prefHeight="45.0" prefWidth="448.0">
-         <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Atributo:" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Calibri Light" size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="atributoField">
+            <TextField fx:id="atributoField" prefHeight="25.0" prefWidth="402.0">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                </HBox.margin>
@@ -101,7 +86,7 @@
       </HBox>
       <HBox prefHeight="45.0" prefWidth="448.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Fecha de modificación:" textAlignment="CENTER">
+            <Label prefHeight="22.0" prefWidth="91.0" text="Tamaño:" textAlignment="CENTER">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -109,56 +94,16 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <Label prefHeight="22.0" prefWidth="149.0">
-               <font>
-                  <Font name="Calibri Light" size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
-               </HBox.margin>
-            </Label>
-         </children>
-      </HBox>
-      <HBox prefHeight="45.0" prefWidth="448.0">
-         <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Tamaño:" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Calibri Light" size="18.0" />
-               </font>
-            </Label>
-            <TextField fx:id="tamanoField">
+            <TextField fx:id="tamanoField" prefHeight="25.0" prefWidth="401.0">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                </HBox.margin>
             </TextField>
-         </children>
-      </HBox>
-      <HBox prefHeight="45.0" prefWidth="448.0">
-         <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Último acceso:" textAlignment="CENTER">
-               <HBox.margin>
-                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-               </HBox.margin>
-               <font>
-                  <Font name="Calibri Light" size="18.0" />
-               </font>
-            </Label>
-            <Label prefHeight="22.0" prefWidth="149.0">
-               <font>
-                  <Font name="Calibri Light" size="18.0" />
-               </font>
-               <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
-               </HBox.margin>
-            </Label>
          </children>
       </HBox>
       <HBox prefHeight="65.0" prefWidth="448.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="190.0" text="Contenido:" textAlignment="CENTER">
+            <Label prefHeight="22.0" prefWidth="102.0" text="Contenido:" textAlignment="CENTER">
                <HBox.margin>
                   <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
                </HBox.margin>
@@ -166,21 +111,24 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <TextArea fx:id="areaContenido" prefHeight="45.0" prefWidth="165.0" />
+            <TextArea fx:id="areaContenido" prefHeight="65.0" prefWidth="400.0" />
          </children>
       </HBox>
-      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="413.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Crear" onAction="#BotonCrearArchivo">
+      <Label alignment="CENTER" layoutX="30.0" layoutY="88.0" prefHeight="30.0" prefWidth="536.0">
+         <font>
+            <Font name="Calibri Light" size="18.0" />
+         </font>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </Label>
+      <Button mnemonicParsing="false" onAction="#BotonCrearArchivo" prefHeight="36.0" prefWidth="513.0" style="-fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Crear">
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
          </VBox.margin>
          <font>
             <Font name="Calibri Light" size="18.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="30.0" layoutY="88.0" prefHeight="30.0" prefWidth="455.0">
-         <font>
-            <Font name="Calibri Light" size="18.0" />
-         </font>
-      </Label>
    </children>
 </VBox>

@@ -1,5 +1,8 @@
-package org.fat;
+package org.fat.controllers;
 
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,11 +13,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.fat.DirectorioFAT;
+import org.fat.EntradaDirectorio;
+import org.fat.TablaDirectorios;
+import org.fat.TablaFAT;
 
 import java.io.IOException;
-import java.util.Date;
 
 public class ViewExteriorController {
     @FXML
@@ -29,39 +38,18 @@ public class ViewExteriorController {
     @FXML
     private TableView<ObservableList<Object>> tableArchivos;
 
-    private TablaDirectorios tablaDirectorios;
+    private TablaDirectorios VartablaDirectorios;
 
-    private TablaFAT tt;
+    private TablaFAT vartablaFat;
 
-    public void initialize(TablaFAT tablaFAT) {
+    public void initialize(TablaFAT tablaFAT, TablaDirectorios tablaDirectorios) {
 
-        tt = tablaFAT;
-        // Inicializa tu TablaDirectorios
-        tablaDirectorios = new TablaDirectorios(tablaFAT);
-
-        tablaDirectorios.crearSubdirectorio("Escritorio", "C:\\");
-        tablaDirectorios.crearSubdirectorio("directorio2", "C:\\");
-        tablaDirectorios.crearSubdirectorio("REDESII", "C:\\Escritorio");
-        tablaDirectorios.crearSubdirectorio("TRABAJOS", "C:\\Escritorio\\REDESII");
-
-        //Crea objetos de tipo FileFAT
-        FileFAT archivo1 = new FileFAT("archivo1", "txt", new Date(), 32, 204869, "Contenido del archivo 1");
-        FileFAT archivo2 = new FileFAT("archivo2", "pdf", new Date(), 32, 404869, "Contenido del archivo 2");
-        FileFAT archivo3 = new FileFAT("archivo3", "doc", new Date(), 32, 404869, "Contenido del archivo 3");
-
-        // Agregar archivos a los directorios
-        tablaDirectorios.agregarEntrada(archivo1, "C:\\Escritorio");
-        tablaDirectorios.agregarEntrada(archivo2, "C:\\Escritorio\\REDESII");
-        tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII");
-        tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII\\TRABAJOS");
-
-        // Listar los archivos dentro de los directorios
-        tablaDirectorios.listarEntradas("C:\\Escritorio\\REDESII");
+        vartablaFat = tablaFAT;
+        VartablaDirectorios = tablaDirectorios;
 
         // Crear el árbol y establecerlo en el TreeView
         TreeItem<String> treeRoot = buildTree(tablaDirectorios);
         arbol.setRoot(treeRoot);
-
 
         arbol.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -74,10 +62,13 @@ public class ViewExteriorController {
         tableArchivos.setRowFactory(tv -> {
             TableRow<ObservableList<Object>> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
+                /*if (!row.isEmpty() && event.isSecondaryButtonDown()) {
+                    ObservableList<Object> rowData = row.getItem();
+                    System.out.println("Clic derecho del ratón en la fila: " + rowData.toString());
+                }*/
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     ObservableList<Object> rowData = row.getItem();
                     if (rowData.get(8) == "Archivo"){
-                        labelContenido.setText(rowData.get(9).toString());
                         TableView.TableViewSelectionModel<ObservableList<Object>> selectionModel = tableArchivos.getSelectionModel();
                         ObservableList<Object> selectedItem = selectionModel.getSelectedItem();
 
@@ -94,8 +85,17 @@ public class ViewExteriorController {
                             tablaDirectorios.abrir(nombreArchivo, extensionArchivo, rutaActual);
                             actualizarTabla(labelRuta.getText());
                         }
+                        labelContenido.setText(rowData.get(9).toString());
                     } else if (rowData.get(8) == "Directorio"){
-                        String rutamedia = labelRuta.getText() + "\\\\" + rowData.get(0);
+                        String currentPath = labelRuta.getText();
+                        String newPathComponent = rowData.get(0).toString();
+
+                        // Verificar si la ruta actual ya termina con "\\"
+                        if (!currentPath.endsWith("\\\\")) {
+                            currentPath += "\\\\";
+                        }
+
+                        String rutamedia = currentPath + newPathComponent;
                         actualizarTabla(rutamedia);
                         labelRuta.setText(rutamedia);
                     }
@@ -105,8 +105,8 @@ public class ViewExteriorController {
         });
 
         tableArchivos.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == null || newValue.get(8) != "Archivo" && oldValue != null ) {
-                labelContenido.setText("Clickea dos veces en la tabla para abrir el archivo, clickea una vez para seleccionar y puedes eliminar o modificar el archivo");
+            if ((newValue == null || newValue.get(8) != "Archivo") && oldValue != null ) {
+                labelContenido.setText("Clickea dos veces en la tabla para abrir el archivo. Un solo clic para seleccionarlo y así puedes eliminar o modificar el archivo seleccionado.");
             }
         });
 
@@ -129,8 +129,8 @@ public class ViewExteriorController {
         return "C:\\\\" + ruta.toString(); // Agrega el prefijo de la unidad de disco
     }
 
-    void actualizarTabla(String ruta) {
-        Object[][] datos = tablaDirectorios.listarEntradasComoArray(ruta);
+    public void actualizarTabla(String ruta) {
+        Object[][] datos = VartablaDirectorios.listarEntradasComoArray(ruta);
         ObservableList<ObservableList<Object>> data = FXCollections.observableArrayList();
 
         for (Object[] fila : datos) {
@@ -148,11 +148,44 @@ public class ViewExteriorController {
             columna.setCellValueFactory(param -> new javafx.beans.property.SimpleObjectProperty<>(param.getValue().get(colIndex)));
             tableArchivos.getColumns().add(columna);
         }
+
+        // Ocultar columnas
         tableArchivos.getColumns().get(9).setPrefWidth(0);
         tableArchivos.getColumns().get(9).setMaxWidth(0);
         tableArchivos.getColumns().get(9).setMinWidth(0);
+        tableArchivos.getColumns().get(8).setPrefWidth(0);
+        tableArchivos.getColumns().get(8).setMaxWidth(0);
+        tableArchivos.getColumns().get(8).setMinWidth(0);
+
         tableArchivos.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); // Esto asegura que las columnas se ajusten al ancho de la tabla
         tableArchivos.autosize();
+
+        // Configurar la columna de imagen para mostrar diferentes imágenes según el tipo de entrada
+        TableColumn<ObservableList<Object>, ImageView> imageColumn = new TableColumn<>("");
+        imageColumn.setCellValueFactory(cellData -> {
+            ImageView imageView = new ImageView();
+            String type = cellData.getValue().get(8).toString();
+            if ("Archivo".equals(type)) {
+                imageView.setImage(new Image("/org/fat/Imagenes/expediente2.png"));
+            } else if ("Directorio".equals(type)) {
+                imageView.setImage(new Image("/org/fat/Imagenes/carpeta2.png"));
+            }
+            imageView.setFitWidth(20);
+            imageView.setFitHeight(20);
+            return new SimpleObjectProperty<>(imageView);
+        });
+
+        // Agregar las columnas a la tabla
+        tableArchivos.getColumns().addAll(imageColumn);
+        tableArchivos.getColumns().remove(imageColumn);
+        tableArchivos.getColumns().add(0, imageColumn);
+    }
+
+    private ObservableList<Object> obtenerElementoTableView(){
+        // Obtén la fila seleccionada
+        TableView.TableViewSelectionModel<ObservableList<Object>> selectionModel = tableArchivos.getSelectionModel();
+        ObservableList<Object> selectedItem = selectionModel.getSelectedItem();
+        return selectedItem;
     }
 
     private TreeItem<String> buildTree(TablaDirectorios tablaDirectorios) {
@@ -177,20 +210,33 @@ public class ViewExteriorController {
         }
     }
 
-    void actualizarTreeView() {
+    public void actualizarTreeView() {
         // Crear el árbol y establecerlo en el TreeView
-        TreeItem<String> treeRoot = buildTree(tablaDirectorios);
+        TreeItem<String> treeRoot = buildTree(VartablaDirectorios);
         arbol.setRoot(treeRoot);
     }
 
+    public void mostrarAlerta(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    public Label getLabelRuta() {
+        return labelRuta;
+    }
+
+
     @FXML
     protected void Regresar(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../view.fxml"));
         Parent root = loader.load();
 
         // Obtener el controlador de la nueva escena y pasarle los datos
         TablaFATController tablaFATController = loader.getController();
-        tablaFATController.setTablaFATData(tt);
+        tablaFATController.setTablaFATData(vartablaFat, VartablaDirectorios);
 
         // Mostrar la nueva escena
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -204,12 +250,12 @@ public class ViewExteriorController {
     @FXML
     protected void CrearArchivo(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Crear_Archivo.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Crear_Archivo.fxml"));
         Parent root = loader.load();
 
 
         CrearArchivoController crearArchivoController = loader.getController();
-        crearArchivoController.setDatos(tablaDirectorios, this);
+        crearArchivoController.setDatos(VartablaDirectorios, this);
 
         // Mostrar la nueva escena
         Stage newStage = new Stage();
@@ -222,27 +268,15 @@ public class ViewExteriorController {
         newStage.show();
     }
 
-    public Label getLabelRuta() {
-        return labelRuta;
-    }
-
-    public void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titulo);
-        alert.setHeaderText(null);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
-    }
-
     @FXML
     protected void CrearDirectorio(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Crear_Directorio.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Crear_Directorio.fxml"));
         Parent root = loader.load();
 
         // Obtener el controlador de la nueva escena y pasarle los datos
         CrearDirectorioController crearDirectorioController = loader.getController();
-        crearDirectorioController.setDatos(tablaDirectorios, this);
+        crearDirectorioController.setDatos(VartablaDirectorios, this);
 
         // Mostrar la nueva escena
         Stage newStage = new Stage();
@@ -258,28 +292,59 @@ public class ViewExteriorController {
 
     @FXML
     protected void Modificar(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("view.fxml"));
-        Parent root = loader.load();
+        ObservableList<Object> selectedItem = obtenerElementoTableView();
+        if (selectedItem != null){
+            if (selectedItem.get(8) == "Archivo") {
+                String nombreArchivo = selectedItem.get(0).toString();
+                int puntoIndex = nombreArchivo.indexOf('.');
+                if (puntoIndex != -1) {
+                    nombreArchivo = nombreArchivo.substring(0, puntoIndex);
+                }
 
-        // Obtener el controlador de la nueva escena y pasarle los datos
-        TablaFATController tablaFATController = loader.getController();
-        tablaFATController.setTablaFATData(tt);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("../Modificar_Archivo.fxml"));
+                Parent root = loader.load();
 
-        // Mostrar la nueva escena
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setTitle("Simulador FAT16 - Tabla de Asignación de Archivos");
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.show();
+                // Obtener el controlador de la nueva escena y pasarle los datos
+                ModificarArchivoCotroller modificarArchivoCotroller = loader.getController();
+                modificarArchivoCotroller.setDatos(VartablaDirectorios, this, nombreArchivo, selectedItem.get(1).toString(), selectedItem.get(9).toString());
+
+                // Mostrar la nueva escena
+                Stage newStage = new Stage();
+                Scene newScene = new Scene(root);
+                newStage.setTitle("Simulador FAT16 - Crear Directorio");
+                newStage.setScene(newScene);
+                newStage.centerOnScreen();
+                newStage.initModality(Modality.WINDOW_MODAL);
+                newStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+                newStage.show();
+            } else {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(  "../Modificar_Directorio.fxml"));
+                Parent root = loader.load();
+
+                // Obtener el controlador de la nueva escena y pasarle los datos
+                ModificarDirectorioController modificarDirectorioController = loader.getController();
+                modificarDirectorioController.setDatos(VartablaDirectorios, this, selectedItem.get(0).toString());
+
+                // Mostrar la nueva escena
+                Stage newStage = new Stage();
+                Scene newScene = new Scene(root);
+                newStage.setTitle("Simulador FAT16 - Crear Directorio");
+                newStage.setScene(newScene);
+                newStage.centerOnScreen();
+                newStage.initModality(Modality.WINDOW_MODAL);
+                newStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+                newStage.show();
+            }
+
+        } else {
+            // Muestra una alerta si no hay ninguna fila seleccionada
+            mostrarAlerta("Advertencia", "Por favor, selecciona un archivo para modificar.");
+        }
     }
 
     @FXML
     protected void Eliminar(ActionEvent event) throws IOException {
-        // Obtén la fila seleccionada
-        TableView.TableViewSelectionModel<ObservableList<Object>> selectionModel = tableArchivos.getSelectionModel();
-        ObservableList<Object> selectedItem = selectionModel.getSelectedItem();
-
+        ObservableList<Object> selectedItem = obtenerElementoTableView();
         if (selectedItem != null) {
             String nombreArchivo = selectedItem.get(0).toString();
             int puntoIndex = nombreArchivo.indexOf('.');
@@ -290,33 +355,44 @@ public class ViewExteriorController {
             String rutaActual = labelRuta.getText() + "\\\\";
 
             // Intenta eliminar la entrada
-            if (tablaDirectorios.eliminarEntrada(nombreArchivo, extensionArchivo, rutaActual)) {
+            if (VartablaDirectorios.eliminarEntrada(nombreArchivo, extensionArchivo, rutaActual)) {
                 // Muestra la alerta de éxito
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Borrado de archivo");
-                alert.setHeaderText("Atención");
-                alert.setContentText("El archivo " + nombreArchivo + " se ha borrado con éxito.");
-                alert.showAndWait();
+                mostrarAlerta("Archivo borrado", "El archivo " + nombreArchivo + " se ha borrado con éxito.");
 
                 // Actualiza la tabla después de eliminar el archivo
                 actualizarTabla(rutaActual);
                 actualizarTreeView();
             } else {
                 // Muestra una alerta si la eliminación falla
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error de borrado");
-                alert.setHeaderText("Error");
-                alert.setContentText("No se pudo borrar el archivo " + nombreArchivo + ".");
-                alert.showAndWait();
+                mostrarAlerta("Error", "No se pudo borrar el archivo " + nombreArchivo + ".");
             }
         } else {
             // Muestra una alerta si no hay ninguna fila seleccionada
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Advertencia");
-            alert.setHeaderText("Atención");
-            alert.setContentText("Por favor, selecciona un archivo para eliminar.");
-            alert.showAndWait();
+            mostrarAlerta("Advertencia", "Por favor, selecciona un archivo para eliminar.");
         }
     }
 
+    public void Reiniciar(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Configuracion.fxml"));
+        Parent root = loader.load();
+
+        // Mostrar la nueva escena
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Simulador FAT16 - Tabla de Asignación de Archivos");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
+    }
+
+    public void DevolverRuta(MouseEvent mouseEvent) {
+        String rutaActual = labelRuta.getText();
+        int ultimaEntrada = rutaActual.lastIndexOf("\\\\");
+        if (ultimaEntrada != -1) {
+            rutaActual = rutaActual.substring(0, ultimaEntrada);
+        }
+        System.out.println(rutaActual);
+        actualizarTabla(rutaActual);
+        labelRuta.setText(rutaActual);
+    }
 }

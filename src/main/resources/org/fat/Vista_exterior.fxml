@@ -6,13 +6,15 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.ViewExteriorController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="676.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.controllers.ViewExteriorController">
    <children>
       <StackPane prefHeight="58.0" prefWidth="1280.0" style="-fx-background-color: #E57B21;">
          <children>
@@ -23,63 +25,220 @@
             </Label>
          </children>
       </StackPane>
-      <ToolBar focusTraversable="false" prefHeight="48.0" prefWidth="1280.0" style="-fx-effect: null; -fx-background-color: #FCEDE1;">
-         <items>
-            <Button contentDisplay="CENTER" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Directorio" onAction="#CrearDirectorio" textOverrun="CENTER_WORD_ELLIPSIS">
+      <HBox prefHeight="93.0" prefWidth="1280.0" style="-fx-background-color: #F6EFEA;">
+         <children>
+            <ToolBar focusTraversable="false" prefHeight="101.0" prefWidth="972.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
+               <items>
+                  <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#CrearDirectorio" prefHeight="91.0" prefWidth="119.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;" textOverrun="CENTER_WORD_ELLIPSIS">
+                     <font>
+                        <Font name="Calibri Light" size="14.0" />
+                     </font>
+                     <graphic>
+                        <VBox alignment="CENTER" prefHeight="96.0" prefWidth="140.0">
+                           <children>
+                              <ImageView fitHeight="54.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@Imagenes/carpeta2.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Crear Directorio">
+                                 <font>
+                                    <Font name="Calibri Light" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#CrearArchivo" prefHeight="91.0" prefWidth="100.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
+                     <font>
+                        <Font name="Calibri Light" size="14.0" />
+                     </font>
+                     <graphic>
+                        <VBox alignment="CENTER" prefHeight="115.0" prefWidth="126.0">
+                           <children>
+                              <ImageView fitHeight="57.0" fitWidth="53.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@Imagenes/expediente.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Crear Archivo">
+                                 <font>
+                                    <Font name="Candara Light" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="modificar" mnemonicParsing="false" onAction="#Modificar" prefHeight="91.0" prefWidth="100.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
+                     <font>
+                        <Font name="Calibri Light" size="14.0" />
+                     </font>
+                     <graphic>
+                        <VBox alignment="CENTER" prefHeight="74.0" prefWidth="98.0">
+                           <children>
+                              <ImageView fitHeight="52.0" fitWidth="92.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@Imagenes/lapiz.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Modificar">
+                                 <font>
+                                    <Font name="Candara Light" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="eliminar" mnemonicParsing="false" onAction="#Eliminar" prefHeight="91.0" prefWidth="100.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
+                     <font>
+                        <Font name="Calibri Light" size="14.0" />
+                     </font>
+                     <graphic>
+                        <VBox alignment="CENTER" prefHeight="66.0" prefWidth="147.0">
+                           <children>
+                              <ImageView fitHeight="53.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true">
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                                 <image>
+                                    <Image url="@Imagenes/borrar.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Eliminar">
+                                 <font>
+                                    <Font name="Candara Light" size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                 </VBox.margin>
+                              </Label>
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </Button>
+               </items>
+            </ToolBar>
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Regresar" prefHeight="91.0" prefWidth="141.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
                <font>
-                  <Font name="Calibri Light" size="14.0" />
+                  <Font name="Calibri Light" size="16.0" />
                </font>
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fitHeight="51.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Imagenes/mesa.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Label text="Visualizar TablaFAT">
+                           <font>
+                              <Font name="Candara Light" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </graphic>
             </Button>
-            <Button mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Crear Archivo" onAction="#CrearArchivo">
+            <Button fx:id="btnReiniciar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Reiniciar" prefHeight="91.0" prefWidth="145.0" style="-fx-effect: null; -fx-background-color: #F6EFEA;">
                <font>
-                  <Font name="Calibri Light" size="14.0" />
+                  <Font name="Calibri Light" size="16.0" />
                </font>
+               <HBox.margin>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </HBox.margin>
+               <graphic>
+                  <VBox alignment="CENTER" prefHeight="90.0" prefWidth="166.0">
+                     <children>
+                        <ImageView fitHeight="52.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Imagenes/recargar.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </ImageView>
+                        <Label text="Reiniciar simulación">
+                           <font>
+                              <Font name="Candara Light" size="14.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Label>
+                     </children>
+                  </VBox>
+               </graphic>
             </Button>
-            <Button fx:id="modificar" mnemonicParsing="false" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Modificar">
-               <font>
-                  <Font name="Calibri Light" size="14.0" />
-               </font>
-            </Button>
-            <Button fx:id="eliminar" mnemonicParsing="false" onAction="#Eliminar" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000;" text="Eliminar">
-               <font>
-                  <Font name="Calibri Light" size="14.0" />
-               </font>
-            </Button>
-         </items>
-      </ToolBar>
+         </children>
+      </HBox>
       <Pane prefHeight="41.0" prefWidth="1280.0">
          <children>
-            <Label layoutX="64.0" layoutY="8.0" prefHeight="17.0" prefWidth="35.0" text="Ruta: ">
+            <ImageView fitHeight="27.0" fitWidth="57.0" layoutX="14.0" layoutY="4.0" onMouseClicked="#DevolverRuta" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Imagenes/flecha-hacia-arriba.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="52.0" layoutY="9.0" prefHeight="19.0" prefWidth="46.0" text="Ruta: ">
                <font>
-                  <Font name="Calibri Light" size="14.0" />
+                  <Font name="Calibri Light" size="16.0" />
                </font>
                <padding>
                   <Insets top="1.0" />
                </padding>
             </Label>
-            <Label fx:id="labelRuta" contentDisplay="CENTER" layoutX="109.0" layoutY="6.0" prefHeight="23.0" prefWidth="1162.0" style="-fx-border-color: #000000; -fx-border-radius: 4;">
+            <Label fx:id="labelRuta" contentDisplay="CENTER" layoutX="98.0" layoutY="6.0" prefHeight="24.0" prefWidth="1173.0" style="-fx-border-color: #000000; -fx-border-radius: 4;" text="C:\\">
                <font>
-                  <Font name="Calibri Light" size="14.0" />
+                  <Font name="Calibri Light" size="16.0" />
                </font>
                <padding>
-                  <Insets bottom="2.0" top="2.0" />
+                  <Insets bottom="2.0" left="10.0" top="2.0" />
                </padding>
             </Label>
          </children>
          <VBox.margin>
-            <Insets />
+            <Insets top="4.0" />
          </VBox.margin>
       </Pane>
-      <HBox prefHeight="523.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;">
+      <HBox prefHeight="470.0" prefWidth="1280.0" style="-fx-background-color: #FFFFFF;">
          <children>
             <Pane prefHeight="585.0" prefWidth="238.0">
                <children>
-                  <TreeView fx:id="arbol" layoutX="2.0" prefHeight="517.0" prefWidth="238.0" />
+                  <TreeView fx:id="arbol" layoutX="2.0" prefHeight="470.0" prefWidth="238.0" stylesheets="@css/TreeView.css" />
                </children></Pane>
-            <TableView fx:id="tableArchivos" prefHeight="542.0" prefWidth="818.0" style="-fx-background-color: #FCEDE1;" />
+            <TableView fx:id="tableArchivos" prefHeight="471.0" prefWidth="818.0" style="-fx-background-color: #FCEDE1;" stylesheets="@css/TableView.css" />
             <Pane prefHeight="585.0" prefWidth="224.0">
                <children>
-                  <Label fx:id="labelContenido" alignment="TOP_CENTER" layoutX="18.0" layoutY="14.0" prefHeight="495.0" prefWidth="189.0" text="Clickea dos veces en la tabla para abrir el archivo, clickea una vez para seleccionar y puedes eliminar o modificar el archivo" textAlignment="CENTER" wrapText="true">
+                  <Label fx:id="labelContenido" alignment="TOP_CENTER" layoutX="18.0" layoutY="14.0" prefHeight="442.0" prefWidth="189.0" text="Clickea dos veces en la tabla para abrir el archivo, clickea una vez para seleccionar y puedes eliminar o modificar el archivo" textAlignment="CENTER" wrapText="true">
                      <font>
                         <Font name="Century Gothic" size="14.0" />
                      </font>
@@ -88,17 +247,5 @@
             </Pane>
          </children>
       </HBox>
-      <StackPane prefHeight="63.0" prefWidth="1280.0">
-         <children>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#Regresar" prefHeight="29.0" prefWidth="1280.0" style="-fx-effect: null; -fx-background-color: #FCEDE1; -fx-border-color: #000000; -fx-border-radius: 4;" text="Regresar a Tabla">
-               <font>
-                  <Font name="Calibri Light" size="14.0" />
-               </font>
-               <StackPane.margin>
-                  <Insets left="20.0" right="20.0" />
-               </StackPane.margin>
-            </Button>
-         </children>
-      </StackPane>
    </children>
 </VBox>
