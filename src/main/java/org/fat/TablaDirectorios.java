@@ -15,7 +15,7 @@ public class TablaDirectorios {
     private TablaFAT tablaFAT;
 
     public TablaDirectorios(TablaFAT tablaFAT) {
-        this.root = new DirectorioFAT("root");
+        this.root = new DirectorioFAT("Disco local (C:)");
         this.tablaFAT = tablaFAT;
     }
 
