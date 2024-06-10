@@ -211,6 +211,7 @@ public class TablaDirectorios {
         boolean flag = this.tablaFAT.CreateFile(16384); // Añadimos el subdirectorio a la tabla fat.
         DirectorioFAT nuevoSubdirectorio = new DirectorioFAT(nombre);
         if(flag){
+            //espero que funcione
             nuevoSubdirectorio.setPrimerCluster(this.tablaFAT.getTable_first_cluster().get(this.tablaFAT.getTable_first_cluster().size()-1));
         }else {
             return "False";
