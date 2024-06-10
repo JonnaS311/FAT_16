@@ -63,13 +63,13 @@ public class BootSectorController {
 
         System.out.println("Sector: " + this.sector + ", Cluster: " + this.cluster);
         ObservableList<Map<String, Object>> data = FXCollections.observableArrayList(
-                createEntry("Jump", 0, 3, "0EBh 03Ch 090h"),
+                createEntry("Jump", 0, 3, "0EB 03C 090"),
                 createEntry("OEM ID", 3, 8, "MSWIN4.0"),
                 createEntry("Bytes Per Sector", 11, 2, "512"),
                 createEntry("Sectors Per Cluster", 13, 1, Integer.toHexString(this.sector)),
                 createEntry("Reserved Sectors", 14, 2, "1"),
                 createEntry("FAT's", 16, 1, "1"),
-                createEntry("Root Entries", 17, 2, "512/544"),
+                createEntry("Root Entries", 17, 2, "512"),
                 createEntry("Sectors", 19, 2, Integer.toHexString( (this.cluster * this.sector) * 512)),
                 createEntry("Media Descriptor", 21, 1, "240"),
                 createEntry("Sectors Per FAT", 22, 2, Integer.toHexString( (this.cluster * 1) / 512)),
@@ -77,10 +77,10 @@ public class BootSectorController {
                 createEntry("Heads", 26, 2, "2"),
                 createEntry("Hidden Sectors", 28, 4, "0"),
                 createEntry("Sectors (large, for HDD)", 32, 4, "0"),
-                createEntry("Physical Drive No.", 36, 1, "80h"),
+                createEntry("Physical Drive No.", 36, 1, "80"),
                 createEntry("Current Head", 37, 1, "0"),
                 createEntry("Signature", 38, 1, "41"),
-                createEntry("Serial number (ID)", 39, 4, "4294967295"),
+                createEntry("Serial number (ID)", 39, 4, "4294"),
                 createEntry("Volume Label", 43, 11, this.VartablaDirectorios.getRoot().getNombre()),
                 createEntry("System ID (filesystem)", 54, 8, "FAT16"),
                 createEntry("Total", 62, 0, "")
