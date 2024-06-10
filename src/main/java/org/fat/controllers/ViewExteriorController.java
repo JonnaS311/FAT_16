@@ -179,6 +179,9 @@ public class ViewExteriorController {
         tableArchivos.getColumns().addAll(imageColumn);
         tableArchivos.getColumns().remove(imageColumn);
         tableArchivos.getColumns().add(0, imageColumn);
+        tableArchivos.getColumns().get(0).setPrefWidth(25);
+        tableArchivos.getColumns().get(0).setMaxWidth(25);
+        tableArchivos.getColumns().get(0).setMinWidth(25);
     }
 
     private ObservableList<Object> obtenerElementoTableView(){
@@ -311,7 +314,7 @@ public class ViewExteriorController {
                 // Mostrar la nueva escena
                 Stage newStage = new Stage();
                 Scene newScene = new Scene(root);
-                newStage.setTitle("Simulador FAT16 - Crear Directorio");
+                newStage.setTitle("Simulador FAT16 - Modificar Archivo");
                 newStage.setScene(newScene);
                 newStage.centerOnScreen();
                 newStage.initModality(Modality.WINDOW_MODAL);
@@ -328,7 +331,7 @@ public class ViewExteriorController {
                 // Mostrar la nueva escena
                 Stage newStage = new Stage();
                 Scene newScene = new Scene(root);
-                newStage.setTitle("Simulador FAT16 - Crear Directorio");
+                newStage.setTitle("Simulador FAT16 - Modificar Directorio");
                 newStage.setScene(newScene);
                 newStage.centerOnScreen();
                 newStage.initModality(Modality.WINDOW_MODAL);
@@ -379,7 +382,7 @@ public class ViewExteriorController {
         // Mostrar la nueva escena
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
-        stage.setTitle("Simulador FAT16 - Tabla de Asignación de Archivos");
+        stage.setTitle("Simulador FAT16 - Configuración inicial");
         stage.setScene(scene);
         stage.centerOnScreen();
         stage.show();
@@ -391,8 +394,24 @@ public class ViewExteriorController {
         if (ultimaEntrada != -1) {
             rutaActual = rutaActual.substring(0, ultimaEntrada);
         }
-        System.out.println(rutaActual);
         actualizarTabla(rutaActual);
         labelRuta.setText(rutaActual);
+    }
+
+    public void VisualizarBoot(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../Vista_Boot_Sector.fxml"));
+        Parent root = loader.load();
+
+        // Obtener el controlador de la nueva escena y pasarle los datos
+        BootSectorController bootSectorController = loader.getController();
+        bootSectorController.setDatos(vartablaFat, this, VartablaDirectorios);
+
+        // Mostrar la nueva escena
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Simulador FAT16 - Tabla de Boot Sector");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 }
