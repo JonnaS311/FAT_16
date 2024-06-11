@@ -15,7 +15,7 @@ public class FileFAT {
         archivado = 0x20
         reservado = 0x40 o 0x80
     */
-    private int attribute;
+    private String attribute;
     private Date creationDate;
     private Date modificationDate;
     private Date lastAccessDate;
@@ -27,7 +27,7 @@ public class FileFAT {
         this.name = "filetext";
         this.extension = "txt";
         this.creationDate = new Date();
-        this.attribute = 32; // Archivado
+        this.attribute = "32"; // Archivado
         this.modificationDate = new Date();
         this.size = 32000;
         this.lastAccessDate = new Date();
@@ -35,7 +35,7 @@ public class FileFAT {
     }
 
     // Constructor con parametros iniciales.
-    public FileFAT(String name, String extension, Date creationDate, int attribute, int size, String content) {
+    public FileFAT(String name, String extension, Date creationDate, String attribute, int size, String content) {
         this.name = (name.length() <= 8)? name:"";
         this.extension = (extension.length() <= 3)?extension:"";
         this.creationDate = creationDate;
@@ -64,7 +64,7 @@ public class FileFAT {
         return extension;
     }
 
-    public int getAttribute() {
+    public String getAttribute() {
         return attribute;
     }
 
@@ -104,7 +104,7 @@ public class FileFAT {
         this.extension = extension;
     }
 
-    public void setAttribute(int attribute) {
+    public void setAttribute(String attribute) {
         this.attribute = attribute;
     }
 

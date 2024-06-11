@@ -54,7 +54,7 @@ public class EntradaDirectorio {
         return file.getLastAccessDate();
     }
 
-    public int getAtributo() {
+    public String getAtributo() {
         return file.getAttribute();
     }
 

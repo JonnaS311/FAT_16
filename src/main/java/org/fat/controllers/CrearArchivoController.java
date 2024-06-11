@@ -1,7 +1,9 @@
 package org.fat.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -9,6 +11,8 @@ import org.fat.FileFAT;
 import org.fat.TablaDirectorios;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CrearArchivoController {
 
@@ -19,7 +23,7 @@ public class CrearArchivoController {
     private TextField extensionField;
 
     @FXML
-    private TextField atributoField;
+    private ComboBox cmbAtributo;
 
     @FXML
     private TextField tamanoField;
@@ -29,6 +33,21 @@ public class CrearArchivoController {
 
     private TablaDirectorios tablaDirectorios;
     private ViewExteriorController viewExteriorController;
+
+    private final Map<String, String> atributoMap = new HashMap<>();
+
+    @FXML
+    public void initialize() {
+        // Llenar el ComboBox con opciones
+        cmbAtributo.setItems(FXCollections.observableArrayList("Solo lectura", "Oculto", "Etiqueta volumen", "Archivado", "Reservado"));
+
+        // Mapear opciones a sus representaciones
+        atributoMap.put("Solo lectura", "0x01");
+        atributoMap.put("Oculto", "0x04");
+        atributoMap.put("Etiqueta volumen", "0x08");
+        atributoMap.put("Archivado", "0x20");
+        atributoMap.put("Reservado", "0x40");
+    }
 
     public void setDatos(TablaDirectorios tablaDirectorios, ViewExteriorController viewExteriorController) {
         this.tablaDirectorios = tablaDirectorios;
@@ -40,7 +59,7 @@ public class CrearArchivoController {
         String rutaActual = viewExteriorController.getLabelRuta().getText();
         String nomArchivo = fieldArchivo.getText();
         String extension = extensionField.getText();
-        String atributo = atributoField.getText();
+        String atributo = (String) cmbAtributo.getValue();
         String tamano = tamanoField.getText();
         String contenido = areaContenido.getText();
 
@@ -49,13 +68,13 @@ public class CrearArchivoController {
             return;
         }
 
-        if (nomArchivo.isEmpty()) {
-            mostrarAlerta("Atención", "Debes nombrar el archivo");
+        if (nomArchivo.isEmpty() || nomArchivo.length() > 8) {
+            mostrarAlerta("Atención", "Debes nombrar el archivo (menos de 8 caracteres)");
             return;
         }
 
-        if (extension.isEmpty()) {
-            mostrarAlerta("Atención", "Debes proporcionar una extensión para el archivo");
+        if (extension.isEmpty() || extension.length() > 3) {
+            mostrarAlerta("Atención", "Debes proporcionar una extensión para el archivo (menos de 3 caracteres)");
             return;
         }
 
@@ -66,12 +85,12 @@ public class CrearArchivoController {
 
         // Convertir el tamaño a entero
         int tamanoInt;
-        int atributoInt;
+        String atributoInt;
         try {
             tamanoInt = Integer.parseInt(tamano);
-            atributoInt = Integer.parseInt(atributo);
+            atributoInt = atributoMap.get(atributo);
         } catch (NumberFormatException e) {
-            mostrarAlerta("Atención", "El tamaño y el atributo deben ser numericos");
+            mostrarAlerta("Atención", "El tamaño deben ser numericos");
             return;
         }
 
