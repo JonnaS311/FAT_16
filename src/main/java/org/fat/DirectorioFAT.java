@@ -2,6 +2,7 @@ package org.fat;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public class DirectorioFAT {
     public String nombre;
@@ -26,6 +27,10 @@ public class DirectorioFAT {
 
     public void agregarSubdirectorio(DirectorioFAT subdirectorio) {
         this.subdirectorios.add(subdirectorio);
+    }
+
+    public void eliminarSubdirectorio(int posicion) {
+        this.subdirectorios.remove(posicion);
     }
 
     public DirectorioFAT buscarSubdirectorio(String nombre) {

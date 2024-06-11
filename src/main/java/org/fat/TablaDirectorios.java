@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class TablaDirectorios {
     private static final int LONGITUD_NOMBRE = 8;
@@ -220,6 +221,39 @@ public class TablaDirectorios {
         return "true";
     }
 
+    public String eliminarSubdirectorio(String nombre, String rutaPadre) {
+        DirectorioFAT directorioPadre = navegarARuta(rutaPadre);
+        if (directorioPadre == null) {
+            return "Error: Ruta del directorio padre no encontrada";
+        }
+        // encontramos el directorio a eliminar
+        ArrayList<DirectorioFAT> tmp = directorioPadre.getSubdirectorios();
+        int pos = -1;
+       DirectorioFAT nodo = null;
+        for (int i = 0; i < tmp.size(); i++) {
+            if (Objects.equals(tmp.get(i).nombre, nombre)){
+                // una vez encontrado el directorio que deseamos eliminar obtenemos su posicion y eliminamos los elementos internos (archivos y otros directorios)
+                pos = i;
+                nodo = tmp.get(i);
+                int cantidadEntradas = nodo.getEntradas().size();
+                // recorremos las entradas y las eliminamos
+                for (int j = 0; j < cantidadEntradas; j++) {
+                    eliminarEntrada(nodo.getEntradas().get(0).getNombre(),nodo.getEntradas().get(0).getExtension(),nodo.getEntradas().get(0).ruta);
+                }
+                // recorremos los directorios y los eliminamos
+                int cantidadSubdirectorios = nodo.getSubdirectorios().size();
+                for (int j = 0; j < cantidadSubdirectorios; j++) {
+                    eliminarSubdirectorio(nodo.getSubdirectorios().get(0).nombre,rutaPadre+"\\"+nombre);
+                }
+                // eliminamos el cluster asociado en la tabla FAT
+                this.tablaFAT.DeleteFile(nodo.getPrimerCluster());
+                break;
+            }
+        }
+        directorioPadre.eliminarSubdirectorio(pos);
+        return "true";
+    }
+
     private DirectorioFAT navegarARuta(String ruta) {
         if (!ruta.startsWith("C:\\")) {
             System.out.println("Error: Ruta no válida. Debe comenzar con C:\\");
@@ -272,8 +306,9 @@ public class TablaDirectorios {
         tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII");
         tablaDirectorios.agregarEntrada(archivo3, "C:\\Escritorio\\REDESII\\TRABAJOS");
 
+        tablaDirectorios.eliminarSubdirectorio("REDESII","C:\\Escritorio");
         // Listar los archivos dentro de los directorios
-        tablaDirectorios.listarEntradas("C:\\Escritorio\\REDESII");
+        tablaDirectorios.listarEntradas("C:\\Escritorio");
 
     }
 
