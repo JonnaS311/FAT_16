@@ -8,7 +8,7 @@ public class DirectorioFAT {
     public String nombre;
     public ArrayList<EntradaDirectorio> entradas;
     public ArrayList<DirectorioFAT> subdirectorios;
-    public final int ATTRIBUTE = 16;
+    public final String ATTRIBUTE = "0x10";
     public Date dirCreatedDate;
     public Date dirModifiedDate;
     public int primerCluster;
@@ -75,7 +75,7 @@ public class DirectorioFAT {
         this.dirModifiedDate = dirModifiedDate;
     }
 
-    public int getATTRIBUTE() {
+    public String getATTRIBUTE() {
         return ATTRIBUTE;
     }
 

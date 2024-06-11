@@ -121,6 +121,7 @@ public class ViewExteriorController {
 
         // Actualizar el progreso del ProgressBar
         pBarEstadoMemoria.setProgress(progreso);
+        pBarEstadoMemoria.setStyle("-fx-accent:  #E57B21;");
         configurarTableView();
     }
 

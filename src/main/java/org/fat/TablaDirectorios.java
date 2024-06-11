@@ -189,7 +189,7 @@ public class TablaDirectorios {
             Object[] datosSubdir = {
                     subdir.getNombre(),
                     "",
-                    "",
+                    subdir.getPrimerCluster(),
                     "",
                     subdir.getDirCreatedDate(),
                     subdir.getDirModifiedDate(),
@@ -296,9 +296,9 @@ public class TablaDirectorios {
         tablaDirectorios.crearSubdirectorio("TRABAJOS", "C:\\Escritorio\\REDESII");
 
         //Crea objetos de tipo FileFAT 
-        FileFAT archivo1 = new FileFAT("archivo1", "txtddd", new Date(), 32, 204869, "Contenido del archivo 1");
-        FileFAT archivo2 = new FileFAT("archivo2", "pdfhhhhh", new Date(), 32, 404869, "Contenido del archivo 2");
-        FileFAT archivo3 = new FileFAT("archivo3", "docddd", new Date(), 32, 404869, "Contenido del archivo 3");
+        FileFAT archivo1 = new FileFAT("archivo1", "txtddd", new Date(), "32", 204869, "Contenido del archivo 1");
+        FileFAT archivo2 = new FileFAT("archivo2", "pdfhhhhh", new Date(), "32", 404869, "Contenido del archivo 2");
+        FileFAT archivo3 = new FileFAT("archivo3", "docddd", new Date(), "32", 404869, "Contenido del archivo 3");
 
         // Agregar archivos a los directorios
         tablaDirectorios.agregarEntrada(archivo1, "C:\\Escritorio");

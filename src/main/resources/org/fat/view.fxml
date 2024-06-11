@@ -11,7 +11,7 @@
 <VBox alignment="TOP_CENTER" blendMode="DARKEN" depthTest="ENABLE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="800.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fat.controllers.TablaFATController">
    <StackPane prefHeight="56.0" prefWidth="800.0" style="-fx-background-color: #E57B21;">
       <children>
-          <Label alignment="CENTER" contentDisplay="CENTER" text="Sistema de Archivos - FAT16" textFill="WHITE">
+          <Label alignment="CENTER" contentDisplay="CENTER" text="SISTEMA DE ARCHIVOS - FAT16" textFill="WHITE">
               <font>
                   <Font name="Century Gothic" size="21.0" />
               </font>
