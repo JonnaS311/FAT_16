@@ -84,7 +84,7 @@
                   <Font name="Calibri Light" size="18.0" />
                </font>
             </Label>
-            <ComboBox fx:id="cmbAtributo" prefHeight="25.0" prefWidth="400.0">
+            <ComboBox fx:id="cmbAtributo" prefHeight="25.0" prefWidth="400.0" visibleRowCount="5">
                <HBox.margin>
                   <Insets bottom="10.0" left="10.0" right="20.0" top="10.0" />
                </HBox.margin>

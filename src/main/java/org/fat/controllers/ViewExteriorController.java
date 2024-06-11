@@ -388,8 +388,26 @@ public class ViewExteriorController {
 
             } else {
                 // Espacio para eliminar directorios
-            }
+                String nombreArchivo = selectedItem.get(0).toString();
+                int puntoIndex = nombreArchivo.indexOf('.');
+                if (puntoIndex != -1) {
+                    nombreArchivo = nombreArchivo.substring(0, puntoIndex);
+                }
+                String rutaActual = labelRuta.getText() + "\\\\";
 
+                // Intenta eliminar la entrada
+                if (VartablaDirectorios.eliminarSubdirectorio(nombreArchivo, rutaActual) == "true") {
+                    // Muestra la alerta de éxito
+                    mostrarAlerta("Directorio borrado", "El directorio " + nombreArchivo + " se ha borrado con éxito.");
+
+                    // Actualiza la tabla después de eliminar el archivo
+                    actualizarTabla(rutaActual);
+                    actualizarTreeView();
+                } else {
+                    // Muestra una alerta si la eliminación falla
+                    mostrarAlerta("Error", "No se pudo borrar el directorio " + nombreArchivo + ".");
+                }
+            }
         } else {
             // Muestra una alerta si no hay ninguna fila seleccionada
             mostrarAlerta("Advertencia", "Por favor, selecciona un archivo para eliminar.");
